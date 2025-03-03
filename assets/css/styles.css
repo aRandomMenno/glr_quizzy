@@ -1,0 +1,36 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+html {
+    background: rgb(131, 58, 180);
+    background: linear-gradient(rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+}
+
+header {
+    position: sticky;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+@font-face {
+    font-family: "manrope", sans-serif;
+    src: url(../fonts/manrope.ttf);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "ADLaM Display", sans-serif;
+    src: url(../fonts/adlam_dispay.ttf);
+    font-weight: 700;
+}
