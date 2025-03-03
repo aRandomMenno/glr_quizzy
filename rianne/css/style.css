@@ -51,7 +51,10 @@ body {
     gap: 10px; /* Ruimte tussen h1 en p */
 }
 
-.cyber h1, .cyber p {
-    color: white; /* Of een van de bovenstaande kleuren */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optioneel voor betere leesbaarheid */
+.cyber h1 {
+    color: #008080; /* Tealgroen, modern */
+}
+
+.cyber p {
+    color: #005F5F; /* Diep petrolblauw, mooi in lijn met de H1 */
 }
