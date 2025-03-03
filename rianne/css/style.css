@@ -50,3 +50,8 @@ body {
     align-items: center; /* Optioneel: centreert de tekst */
     gap: 10px; /* Ruimte tussen h1 en p */
 }
+
+.cyber h1, .cyber p {
+    color: white; /* Of een van de bovenstaande kleuren */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optioneel voor betere leesbaarheid */
+}
