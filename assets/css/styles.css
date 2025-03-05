@@ -1,8 +1,21 @@
+
+:root {
+    --color-background: #fff;
+    --color-link_nav: #9b31ff;
+    --color-shadow: #ffffffb6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 html,
 body {
     padding: 0;
     margin: 0;
     font-size: 1.2rem;
+    width: 100%;
+    height: 100%;
 }
 
 html {
@@ -13,14 +26,95 @@ html {
 header {
     position: sticky;
     width: calc(100% - 40px);
-    margin: 0 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: var(--color-background);
+    height: 80px;
+    border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    box-shadow: 0px 0px 12px var(--color-shadow);
+}
+
+nav {
+    height: 80px;
+    width: fit-content;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 1rem;
+    padding: 0;
+    margin: 0 40px;
+    height: 80px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--color-link_nav);
+}
+
+.dark-div {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dark-mode-toggle {
+    width: 36px;
+    height: 36px;
+    background-color: #9b31ff;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.quizzes {
+    margin: 40px auto;
+    width: calc(100vw - 120px);
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.quiz {
+    width: 30%;
+    height: 600px;
+    background-color: var(--color-background);
+    box-shadow: 0px 0px 12px var(--color-shadow);
+    border-radius: 1em;
+    z-index: 3;
+}
+
+.quiz p {
+    text-align: center;
+    padding: 0 8px;
+}
+
+.thumbnail_wrapper {
+    z-index: 1;
+    border-radius: 1em;
+    border: 8px solid var(--color-background);
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+.quiz_thumbnail_menno {
+    width: 100%;
+    height: 300px;
+    transition: scale 0.45s ease-in-out;
+}
+
+.quiz_thumbnail_menno:hover {
+    scale: 1.1;
 }
 
 @font-face {
