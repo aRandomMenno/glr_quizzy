@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Quizzy home || Menno, Rianne, Yara</title>
 
         <link rel="stylesheet" href="./assets/css/styles.css">
+        <link rel="stylesheet" href="./assets/css/mobile.css">
+        <script src="./assets/js/thumbnails_hover.js"></script>
+        <script src="./assets/js/dark_mode_toggle.js"></script>
     </head>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="." class="link">Home</a></li>
-                <li><a href="./menno/" class="link">Menno</a></li>
-                <li><a href="./rianne/cyber.html" class="link">Rianne</a></li>
-                <li><a href="./yara/" class="link">Yara</a></li>
-            </ul>
-        </nav>
-        <div class="dark-div">
-            <div class="dark-mode-toggle hidden"></div>
-        </div>
-    </header>
-
     <body>
-        <div class="quizzes">
-            <div class="quiz menno">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="." class="link">Home</a></li>
+                    <li><a href="./menno/" class="link">Menno</a></li>
+                    <li><a href="./rianne/cyber.html" class="link">Rianne</a></li>
+                    <li><a href="./yara/" class="link">Yara</a></li>
+                </ul>
+            </nav>
+            <div class="dark-div">
+                <div class="dark-mode-toggle"></div>
+            </div>
+        </header>
+
+        <main class="quizzes">
+            <article class="quiz menno">
                 <div class="thumbnail_wrapper">
-                    <img src="./assets/img/online_veiligheid.png" class="quiz_thumbnail">
+                    <img id="img_ov" src="./assets/img/online_veiligheid.png" class="quiz_thumbnail" alt="Online veiligheid quiz thumbnail" onmouseenter="zoom_on('img_ov')" onmouseleave="zoom_out('img_ov')">
                 </div>
                 <div class="quiz_info">
                     <h2 class="quiz_title">Online veiligheid</h2>
@@ -35,31 +38,31 @@
                     </p>
                     <p><a href="./menno/">Start de quiz</a></p>
                 </div>
-            </div>
-            <div class="quiz rianne">
+            </article>
+            <article class="quiz rianne">
                 <div class="thumbnail_wrapper">
-                    <img src="./assets/img/cybercriminaliteit.png" class="quiz_thumbnail">
+                    <img id="img_cc" src="./assets/img/cybercriminaliteit.png" class="quiz_thumbnail" alt="Cybercriminaliteit quiz thumbnail" onmouseenter="zoom_on('img_cc')" onmouseleave="zoom_out('img_cc')">
                 </div>
                 <div class="quiz_info">
                     <h2 class="quiz_title">Cyberpesten</h2>
                     <p>
-                        Een quiz over cyberpesten. Je leert hoe je hier mee omgaat en ander
+                        Een quiz over cyberpesten. Je leert hoe je hiermee omgaat en anderen kan helpen.
                     </p>
                     <p><a href="./rianne/cyber.html">Start de quiz</a></p>
                 </div>
-            </div>
-            <div class="quiz yara">
+            </article>
+            <article class="quiz yara">
                 <div class="thumbnail_wrapper">
-                    <img src="./assets/img/social_media_terminology.png" class="quiz_thumbnail thumbnail_yara">
+                    <img id="img_sm" src="./assets/img/social_media_terminology.png" class="quiz_thumbnail thumbnail_yara" alt="Sociale media terminologie quiz thumbnail" onmouseenter="zoom_on('img_sm')" onmouseleave="zoom_out('img_sm')">
                 </div>
                 <div class="quiz_info">
-                    <h2 class="quiz_title">Socials media terminologie</h2>
+                    <h2 class="quiz_title">Social media terminologie</h2>
                     <p>
                         Een quiz waar je van alles leert over de termen die gebruikt worden op social media.
                     </p>
                     <p><a href="./yara/">Start de quiz</a></p>
                 </div>
-            </div>
-        </div>
+            </article>
+        </main>
     </body>
 </html>

@@ -1,33 +1,47 @@
-
+/* ~~ Creating colors ~~ */
 :root {
-    --color-text: #000;
-    --color-background: #fff;
-    --color-link: #9b31ff;
-    --color-shadow: #ffffffb6;
-    --color-background_quiz-info: #e0e0e0;
-    --color-background_quiz-info-shadow: #e0e0e0b6;
-    --color-dark-toggle: #000;
+    --color_text: #000;
+    --color_background: #fff;
+    --color_link: #9b31ff;
+    --color_shadow: #ffffffb6;
+    --color_background_quiz_info: #e0e0e0;
+    --color_background_quiz_info_shadow: #e0e0e0b6;
+    --color_dark_toggle: #000;
+    --font-primary: "manrope";
+    --font-heading: "ADLaM Display";
+}
+
+[data-theme="dark"] {
+    --color_text: #fff;
+    --color_background: #222;
+    --color_link: #bb7aff;
+    --color_shadow: #00000080;
+    --color_background_quiz_info: #333;
+    --color_background_quiz_info_shadow: #00000080;
+    --color_dark_toggle: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --color-text: #fff;
-        --color-background: #222;
-        --color-link: #bb7aff;
-        --color-shadow: #00000080;
-        --color-background_quiz-info: #333;
-        --color-background_quiz-info-shadow: #00000080;
-        --color-dark-toggle: #fff;
-        --color-text: #f5f5f5;
+    :root:not([data-theme="light"]) {
+        --color_text: #fff;
+        --color_background: #222;
+        --color_link: #bb7aff;
+        --color_shadow: #00000080;
+        --color_background_quiz_info: #333;
+        --color_background_quiz_info_shadow: #00000080;
+        --color_dark_toggle: #fff;
     }
 }
 
+/* % Global styles */
 * {
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
-    color: var(--color-text);
+    color: var(--color_text);
+    font-family: var(--font-primary);
 }
 
+/* % Fixes */
 html,
 body {
     padding: 0;
@@ -37,21 +51,28 @@ body {
     height: 100%;
 }
 
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+}
+
+/* $ Background */
 html {
     background: rgb(131, 58, 180);
     background: linear-gradient(rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
 }
 
+/* $ Header/ navigation styles */
 header {
     position: sticky;
     width: calc(100% - 40px);
     max-width: 1700px;
     margin: 0 auto;
-    background-color: var(--color-background);
+    background-color: var(--color_background);
     height: 80px;
-    border-bottom-right-radius: 1em;
-    border-bottom-left-radius: 1em;
-    box-shadow: 0px 0px 12px var(--color-shadow);
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    box-shadow: 0px 0px 12px var(--color_shadow);
 }
 
 nav {
@@ -64,21 +85,24 @@ nav ul {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2em;
+    gap: 36px;
     padding: 0;
     margin: 0 40px;
     height: 80px;
+    font-family: var(--font-heading);
 }
 
 nav ul li a {
     text-decoration: none;
-    color: var(--color-link);
+    color: var(--color_link);
+    font-family: var(--font-heading);
 }
 
+/* ~ Dark mode switch */
 .dark-div {
     position: absolute;
     top: 0;
-    right: 0px;
+    right: 0;
     height: 80px;
     width: 80px;
     display: flex;
@@ -89,11 +113,25 @@ nav ul li a {
 .dark-mode-toggle {
     width: 36px;
     height: 36px;
-    background-color: var(--color-dark-toggle);
+    background-color: var(--color_dark_toggle);
     border-radius: 50%;
     position: absolute;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.dark-mode-toggle:hover {
+    transform: scale(1.2);
+}
+
+.dark-mode-toggle.active {
+    background-color: var(--color_dark_toggle);
+}
+
+/* # The styles for the three quiz "articles" */
 .quizzes {
     margin: 5em auto;
     width: calc(100vw - 120px);
@@ -105,31 +143,26 @@ nav ul li a {
 .quiz {
     width: 25%;
     height: fit-content;
-    background-color: var(--color-background);
-    box-shadow: 0px 0px 12px var(--color-shadow);
-    border-radius: 1em;
+    background-color: var(--color_background);
+    box-shadow: 0px 0px 12px var(--color_shadow);
+    border-radius: 24px;
     z-index: 3;
-}
-
-.quiz p a {
-    text-decoration: none;
-    color: var(--color-link);
 }
 
 .quiz_info {
     word-break: keep-all;
     width: calc(100% - 20px);
     margin: 10px 10px;
-    box-shadow: 0px 0px 12px var(--color-background_quiz-info-shadow);
-    background-color: var(--color-background_quiz-info);
+    box-shadow: 0px 0px 12px var(--color_background_quiz_info_shadow);
+    background-color: var(--color_background_quiz_info);
     padding: 10px;
-    box-sizing: border-box;
-    border-radius: 1em;
+    border-radius: 24px;
 }
 
 .quiz_title {
     text-align: center;
     padding: 0 8px;
+    font-family: var(--font-heading);
 }
 
 .quiz p {
@@ -137,39 +170,45 @@ nav ul li a {
     padding: 0 8px;
 }
 
+.quiz p a {
+    text-decoration: none;
+    color: var(--color_link);
+}
+
+/* ~ Quiz thumbnail image */
 .thumbnail_wrapper {
     width: 100%;
     height: 300px;
     z-index: 1;
-    border-radius: 1em;
-    border: 8px solid var(--color-background);
-    box-sizing: border-box;
+    border-radius: 24px;
+    border: 8px solid var(--color_background);
     overflow: hidden;
     position: relative;
 }
 
 .quiz_thumbnail {
+    object-fit: cover;
     width: 100%;
     height: 100%;
     transition: scale 0.45s ease-in-out;
 }
 
-.quiz_thumbnail:hover {
-    scale: 1.1;
-}
-
-.thumbnail_yara:hover {
-    scale: none;
-}
-
+/* @ Font declaration */
 @font-face {
-    font-family: "manrope", sans-serif;
+    font-family: "Manrope";
     src: url(../fonts/manrope.ttf);
     font-weight: 500;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: "ADLaM Display", sans-serif;
+    font-family: "ADLaM Display";
     src: url(../fonts/adlam_dispay.ttf);
     font-weight: 700;
+    font-display: swap;
+}
+
+/* @ Useful lonely styles */
+.hidden {
+    display: none;
 }
