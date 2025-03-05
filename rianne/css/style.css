@@ -62,7 +62,7 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Zachte schaduw voor diepte */
 }
 
-.start-btn {
+#start-btn {
     background-color: #008080; /* Zelfde kleur als de tekst */
     color: white;
     padding: 10px 20px;
@@ -74,6 +74,131 @@ body {
     margin-top: 20px; /* Zorgt voor ruimte boven de knop */
 }
 
-.start-btn:hover {
+#start-btn:hover {
     background-color: #005F5F; /* Donkerder groen voor hover effect */
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* Zorgt ervoor dat .side en .quiz naast elkaar komen */
+    align-items: flex-start; /* Zorgt ervoor dat de items bovenaan worden uitgelijnd */
+    gap: 20px; /* Ruimte tussen .side en .quiz */
+    margin-top: 20px; /* Ruimte boven de container */
+    width: 100%; /* Volledige breedte van het scherm */
+    max-width: 1200px; /* Maximaliseer de breedte van de container */
+    margin: 0 auto; /* Centreert de container horizontaal */
+}
+
+.side {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 25%; /* Zet de breedte van de zijbalk */
+    max-width: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lichte schaduw voor diepte */
+    margin-left: 100px;
+}
+
+.side h3 {
+    text-align: center;
+}
+
+.quiz {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 70%; /* Maak de quiz breder dan de zijbalk */
+    max-width: 800px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Zorgt ervoor dat de inhoud links wordt uitgelijnd */
+    gap: 10px;
+}
+
+.quiz, .side {
+    display: none;
+}
+
+.quiz h1, .quiz h2, .side h1, .side h2 {
+    color: #008080; /* Tealgroen, modern */
+}
+
+.quiz p, .side p {
+    color: #005F5F;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Zachte schaduw voor diepte */
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* Zorgt ervoor dat de radio-buttons onder elkaar staan */
+    gap: 10px; /* Optionele ruimte tussen de radio-buttons */
+    align-items: flex-start; /* Zorgt ervoor dat de radio-buttons links uitgelijnd zijn */
+}
+
+label {
+    display: flex;
+    align-items: center; /* Zorgt ervoor dat de radio-buttons en tekst goed uitgelijnd zijn */
+    justify-content: flex-start; /* Zorgt ervoor dat de inhoud links uitgelijnd wordt */
+    margin-left: 50px;
+}
+
+label input {
+    margin-right: 10px; /* Voegt ruimte toe tussen de radio-button en de tekst */
+}
+
+.button-container {
+    display: flex; /* Zet de container in flex-modus */
+    gap: 20px; /* Voeg ruimte toe tussen de knoppen */
+    justify-content: center; /* Centreert de knoppen horizontaal */
+    margin-left: 50px;
+}
+
+/* Standaard kleur voor de vraagnummers */
+.side .vraag {
+    color: #000; /* Zwart voor standaard */
+    font-size: 24px; /* Grotere tekst */
+    font-weight: bold; /* Maak het vetgedrukt */
+    text-align: center; /* Zorgt ervoor dat de tekst gecentreerd is */
+    padding: 10px; /* Voeg wat ruimte toe rondom het nummer */
+    margin: 5px 0; /* Voeg ruimte toe boven en onder het nummer */
+    border-radius: 50%; /* Maak het nummer rond */
+    width: 40px; /* Zorg ervoor dat het een cirkel wordt */
+    height: 40px; /* Zorg ervoor dat het een cirkel wordt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Kleur voor de actieve vraag */
+.side .vraag.actief {
+    color: white; /* Maak de tekst wit */
+    background-color: #008080; /* Tealgroene achtergrond voor actieve vraag */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Schaduw voor diepte */
+}
+
+
+/* Verberg de quiz en de side initieel */
+.quiz, .side {
+    display: none;
+}
+
+/* Button styling */
+#volgende-btn, #terug-btn {
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#volgende-btn:hover, #terug-btn:hover {
+    background-color: #005F5F;
 }
