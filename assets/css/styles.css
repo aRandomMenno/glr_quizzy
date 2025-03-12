@@ -2,6 +2,7 @@
 :root {
     --color_text: #000;
     --color_background: #fff;
+    --color_background_transprent: #ffffff60;
     --color_link: #9b31ff;
     --color_shadow: #ffffffb6;
     --color_background_quiz_info: #e0e0e0;
@@ -14,6 +15,7 @@
 [data-theme="dark"] {
     --color_text: #fff;
     --color_background: #222;
+    --color_background_transprent: #222222a0;
     --color_link: #bb7aff;
     --color_shadow: #00000080;
     --color_background_quiz_info: #333;
@@ -25,6 +27,7 @@
     :root:not([data-theme="light"]) {
         --color_text: #fff;
         --color_background: #222;
+        --color_background_transprent: #222222a0;
         --color_link: #bb7aff;
         --color_shadow: #00000080;
         --color_background_quiz_info: #333;

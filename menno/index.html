@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Online veiligheid - Menno's Quizzy quiz</title>
+
+        <link rel="stylesheet" href="../assets/css/styles.css">
+        <link rel="stylesheet" href="./css/quiz.css">
+        <script src="./js/quiz_logic.js" defer></script>
+        <script src="../assets/js/dark_mode_toggle.js"></script>
+    </head>
+
+    <body>
+        <main>
+            <header class="header_landing">
+                <nav>
+                    <ul>
+                        <li><a href=".." class="link">Home</a></li>
+                        <li><a href="." class="link">Menno</a></li>
+                        <li><a href="../rianne/cyber.html" class="link">Rianne</a></li>
+                        <li><a href="../yara/" class="link">Yara</a></li>
+                        <li><a onclick="start_quiz()" class="linK">Start quiz</a></li>
+                    </ul>
+                </nav>
+                <div class="dark-div">
+                    <div class="dark-mode-toggle"></div>
+                </div>
+            </header>
+
+            <div class="landing" id="landing">
+                <h2>Hall orld</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, fugiat officia voluptatum, itaque
+                    distinctio voluptas repellat voluptatibus delectus, similique quisquam enim. Facilis repellat
+                    delectus fugiat modi molestiae labore? Harum, autem.
+                </p>
+            </div>
+
+            <div class="quiz hidden" id="quiz">
+                <div class="quiz_vraag">
+                    <h2 id="vraag">Waaruit bestaat een goed wachtwoord?</h2>
+                    <p id="antwoord">a. <br>b. <br>c. <br>d. </p>
+                    <div class="buttons">
+                        <button id="skip">Vraag overslaan</button>
+                        <button id="previous">Vorige vraag</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz_vragen_lijst hidden" id="quiz_vragen_lijst">
+                DE LIJST AAN VRAGEN
+            </div>
+        </main>
+    </body>
+</html>
