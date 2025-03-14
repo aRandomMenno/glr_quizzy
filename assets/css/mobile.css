@@ -1,8 +1,56 @@
+@media screen and (max-width: 576px) {
+    .quizzes {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+        width: calc(100vw - 40px);
+        margin: 2em auto;
+    }
+
+    .quiz {
+        width: 100%;
+    }
+
+    nav ul {
+        gap: 0.8em;
+        margin: 0 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        height: auto;
+        min-height: 80px;
+        padding: 10px 0;
+    }
+
+    header {
+        height: auto;
+        min-height: 80px;
+        position: relative;
+    }
+
+    .dark-div {
+        top: 10px;
+        right: 10px;
+    }
+
+    .thumbnail_wrapper {
+        height: 200px;
+    }
+
+    .information.active {
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 95%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .quizzes {
         flex-direction: column;
         align-items: center;
         gap: 2em;
+        width: calc(100vw - 80px);
     }
 
     .quiz {
@@ -12,5 +60,61 @@
     nav ul {
         gap: 1em;
         margin: 0 20px;
+    }
+
+    .information.active {
+        width: 90%;
+        max-height: 80vh;
+    }
+
+    .dark-div {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    .quizzes {
+        width: calc(100vw - 80px);
+        gap: 1.5em;
+    }
+
+    .quiz {
+        width: 30%;
+    }
+
+    .quiz_info {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .quizzes {
+        max-width: 1600px;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    .information.active {
+        max-height: 70vh;
+    }
+
+    .thumbnail_wrapper {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    .quiz_info h2 {
+        font-size: 1.3rem;
+    }
+
+    .information h2 {
+        font-size: 1.5rem;
     }
 }
