@@ -8,6 +8,7 @@
         <title>Online veiligheid - Menno's Quizzy quiz</title>
 
         <link rel="stylesheet" href="../assets/css/styles.css">
+        <link rel="stylesheet" href="./css/mobile.css">
         <link rel="stylesheet" href="./css/quiz.css">
         <script src="./js/quiz_logic.js" defer></script>
         <script src="../assets/js/dark_mode_toggle.js"></script>
@@ -22,27 +23,66 @@
                         <li><a href="." class="link">Menno</a></li>
                         <li><a href="../rianne/cyber.html" class="link">Rianne</a></li>
                         <li><a href="../yara/" class="link">Yara</a></li>
-                        <li><a onclick="start_quiz()" class="linK">Start quiz</a></li>
+                        <li><a onclick="start_quiz()" class="link">Start quiz</a></li>
+                        <li class="dark-mode-container"><div class="dark-mode-toggle"></div></li>
                     </ul>
                 </nav>
-                <div class="dark-div">
-                    <div class="dark-mode-toggle"></div>
-                </div>
             </header>
 
             <div class="landing" id="landing">
-                <h2>Hall orld</h2>
+                <h2>Bescherm Jezelf Online</h2>
+
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, fugiat officia voluptatum, itaque
-                    distinctio voluptas repellat voluptatibus delectus, similique quisquam enim. Facilis repellat
-                    delectus fugiat modi molestiae labore? Harum, autem.
+                    In deze digitale wereld vormt kennis je eerste verdedigingslinie tegen cyberdreigingen. Door jezelf
+                    te informeren over cyberveiligheid kun je je gegevens en privacy effectief beschermen. Hieronder
+                    vind je een beknopt overzicht van essentiële onderwerpen als startpunt voor je eigen onderzoek.
                 </p>
+
+                <p>
+                    <strong>Account- en netwerkbeveiliging:</strong> Creëer sterke wachtwoorden met verschillende tekens
+                    en gebruik waar mogelijk twee-factor authenticatie (2FA). Beveilig je thuisnetwerk met een firewall
+                    en houd je router-firmware up-to-date. Meer informatie vind je bij het <a href="https://www.ncsc.nl"
+                        target="_blank">NCSC</a> en <a href="https://www.authy.com" target="_blank">Authy</a>.
+                    </p>
+
+                <p>
+                    <strong>Dreigingen herkennen:</strong> Leer phishing-pogingen herkennen door verdachte e-mails en
+                    links kritisch te beoordelen. Wees voorzichtig met openbare Wi-Fi en overweeg het gebruik van een
+                    VPN zoals <a href="https://protonvpn.com" target="_blank">ProtonVPN</a>. Controleer websites op
+                    HTTPS-verbindingen en overweeg privacy tools zoals <a href="https://github.com/gorhill/uBlock"
+                        target="_blank">uBlock Origin</a>.
+                    </p>
+
+                <p>
+                    <strong>Blijf leren:</strong> Cyberbeveiliging evolueert voortdurend. Verdiep je kennis via platforms
+                    zoals <a href="https://www.coursera.org" target="_blank">Coursera</a> of <a
+                        href="https://www.udemy.com" target="_blank">Udemy</a>. Het belangrijkste is dat je zelf op
+                    onderzoek uitgaat en je kennis regelmatig bijwerkt om voorbereid te blijven op nieuwe
+                    bedreigingen.
+                </p>
+                <p>
+                    Nu dat je meer informatie hebt over online veiligheid, is het tijd om je kennis te testen met de
+                    quiz hieronder. Veel succes! Het doel van deze quiz is om jouw kennis over online veiligheid te testen. Misschien leer je nog wat
+                    nieuwe dingen! 
+                </p>
+
+                <div class="quiz-button-container">
+                    <button onclick="start_quiz()" class="quiz-start-button">Start de Quiz</button>
+                </div>
             </div>
 
             <div class="quiz hidden" id="quiz">
                 <div class="quiz_vraag">
                     <h2 id="vraag">Waaruit bestaat een goed wachtwoord?</h2>
-                    <p id="antwoord">a. <br>b. <br>c. <br>d. </p>
+                    <p id="antwoord">
+                        <a onclick="guess('a');" id="awn_a" class="hidden">a</a>
+                        <a onclick="guess('b');" id="awn_b" class="hidden">b</a>
+                        <a onclick="guess('c');" id="awn_c" class="hidden">c</a>
+                        <a onclick="guess('d');" id="awn_d" class="hidden">d</a>
+                        <textarea name="open_question" id="open_question" rows="4" cols="50"
+                            placeholder="Typ hier je antwoord..." class="hidden"></textarea>
+                        <button onclick="confirm();">Volgende vraag</button>
+                    </p>
                     <div class="buttons">
                         <button id="skip">Vraag overslaan</button>
                         <button id="previous">Vorige vraag</button>
