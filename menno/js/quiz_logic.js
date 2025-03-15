@@ -33,7 +33,6 @@ function end_quiz() {
     quiz_active = false;
 }
 
-// ! Deze vragen en antwoorden zijn placeholders, de echte vragen en antwoorden moeten nog bedacht worden.
 let questions = {
     1: {
         questionType: "multiple_choice",
