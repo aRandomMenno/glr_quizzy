@@ -106,23 +106,13 @@ body {
     border-radius: 10px;
   }
   
-  .container > div.menu {
-    grid-area: menu;
-    width: 340px; /* Vaste breedte van 340px voor de menu */
-    height: 100%; /* Vaste hoogte van 1000px voor de menu */
-    border-radius: 10px;
-    text-align: center;
-    padding-top: 150px;
-    font-size: 20px;
-  }
-  
   .container > div.content {
     grid-area: content;
     border-radius: 10px;
   }
 
   /* Quiz layout */
-  .container > div.menu2 {
+  .container > div.menu {
     grid-area: menu;
     width: 340px; /* Vaste breedte van 340px voor de menu */
     height: 100%; /* Vaste hoogte van 1000px voor de menu */
@@ -133,16 +123,32 @@ body {
     display: none;
   }
 
-  .quiz {
-    background-color: #fff;
+  .image {
+    height: 200px;
+    width: 300px;
+    background-size: cover;
+    background-position: center;
     border-radius: 10px;
-    width: 60%; /* Of een vaste breedte zoals 600px */
-    max-width: 800px;
-    margin: 20px auto;
+    flex-shrink: 0; /* Zorgt dat de afbeelding niet verkleint */
+}
+
+.quiz {
+    width: 60%; /* Zelfde breedte als .cyber */
+    max-width: 800px; /* Zelfde maximale breedte als .cyber */
+    margin: 20px auto; /* Centreert de sectie */
+    background-color: white;
     padding: 20px;
+    border-radius: 10px;
     display: flex;
-    flex-direction: column; /* Zet de inhoud onder elkaar */
-    gap: 10px; /* Ruimte tussen h1, h2 en p */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Ruimte tussen elementen */
+}
+
+.quiz, label {
+    display: block;  /* Zorgt ervoor dat elke optie onder elkaar staat */
+    margin: 5px 0;
+    cursor: pointer;
 }
 
 .quiz h1, h2 {
@@ -157,11 +163,17 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Zachte schaduw voor diepte */
 }
 
-.container > div.content2 {
-    grid-area: content;
+.content2 {
+    display: flex;
+    align-items: center; /* Centreert verticaal */
+    justify-content: space-between; /* Zorgt dat de tekst links blijft en de afbeelding rechts */
+    width: 100%;
+    max-width: 800px; /* Zelfde breedte als .cyber */
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
     border-radius: 10px;
-    display: none;
-  }
+}
 
   #volgende-btn, #vorige-btn{
     background-color: #008080; /* Zelfde kleur als de tekst */
@@ -178,20 +190,6 @@ body {
 
 #volgende-btn:hover, #vorige-btn:hover {
     background-color: #005F5F; /* Donkerder groen voor hover effect */
-}
-
-.quiz, label {
-        display: block;  /* Zorgt ervoor dat elke optie onder elkaar staat */
-        margin: 5px 0;
-}
-.image {
-    height: 200px;
-    width: 300px;
-    border: 1px solid black;
-    display: flex;
-    margin-left: 650px;
-    margin-top: 10px;
-    border-radius: 10px;
 }
 
 .input-container {
