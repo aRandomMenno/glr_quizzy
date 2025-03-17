@@ -1,234 +1,104 @@
-document.getElementById("start-btn").addEventListener("click", function() {
-    // Verberg de huidige content en menu
-    document.querySelector(".content").style.display = "none";
-    document.querySelector(".menu").style.display = "none";
-
-    // Toon de quiz-content en menu
-    document.querySelector(".content2").style.display = "block";
-    document.querySelector(".menu2").style.display = "block";
-});
-
-
-const quizData = [
-    // Meerkeuzevragen
-    {
-        vraag: "Wat is een voorbeeld van cyberpesten?",
-        opties: [
-            "A. Een vriend een grappige meme sturen",
-            "B. Iemand online beledigen (gemeen doen) en bedreigen (bang maken)",
-            "C. Een privégesprek met iemand voeren"
-        ],
-        juisteAntwoord: 1, // Index van het juiste antwoord
-        afbeelding: "images/cyberpesten.png"
-    },
-    {
-        vraag: "Welke van de volgende gevolgen kan cyberpesten hebben?",
-        opties: [
-            "A. Stress en angst (je vervelend en bang voelen)",
-            "B. Sneller internet",
-            "C. Meer likes op social media"
-        ],
-        juisteAntwoord: 0,
-        afbeelding: "images/gevolgen.png"
-    },
-    {
-        vraag: "Wat is doxing (persoonlijke info verspreiden)?",
-        opties: [
-            "A. Het online delen van iemands adres of telefoonnummer zonder toestemming",
-            "B. Een anonieme (zonder naam) account aanmaken",
-            "C. Het downloaden van illegale films"
-        ],
-        juisteAntwoord: 0,
-        afbeelding: "images/doxing.png"
-    },
-    {
-        vraag: "Wat moet je doen als je online wordt gepest?",
-        opties: [
-            "A. Terugpesten zodat de ander stopt",
-            "B. Bewijs bewaren en hulp vragen aan een volwassene of organisatie",
-            "C. Alles negeren en hopen dat het vanzelf overgaat"
-        ],
-        juisteAntwoord: 1,
-        afbeelding: "images/online-pesten.png"
-    },
-    {
-        vraag: "Wat is catfishing (je voordoen als iemand anders)?",
-        opties: [
-            "A. Iemand online bedreigen (bang maken) met een nepaccount",
-            "B. Doen alsof je iemand anders bent om anderen te misleiden (voor de gek houden)",
-            "C. Een foto van een kat posten op social media"
-        ],
-        juisteAntwoord: 1,
-        afbeelding: "images/catfishing.png"
-    },
-    {
-        vraag: "Waarom pesten sommige mensen online?",
-        opties: [
-            "A. Ze vervelen zich of willen aandacht krijgen",
-            "B. Ze willen anderen helpen",
-            "C. Ze willen vrienden maken"
-        ],
-        juisteAntwoord: 0,
-        afbeelding: "images/online-pesten-redenen.png"
-    },
-    {
-        vraag: "Welke wet (regel) kan cyberpesten strafbaar maken?",
-        opties: [
-            "A. De Auteurswet (regels over wie iets heeft gemaakt)",
-            "B. De Wet Computercriminaliteit (regels over misdaad met computers)",
-            "C. De Wet Bescherming Persoonsgegevens (regels over privacy)"
-        ],
-        juisteAntwoord: 1,
-        afbeelding: "images/wet-cyberpesten.png"
-    },
-    {
-        vraag: "Wat betekent “trollen” (online plagen)?",
-        opties: [
-            "A. Iemand expres irriteren (lastigvallen) of boos maken op internet",
-            "B. Een anonieme (zonder naam) blog starten",
-            "C. Een compliment geven aan een online vriend"
-        ],
-        juisteAntwoord: 0,
-        afbeelding: "images/trollen.png"
-    },
-    {
-        vraag: "Wat kan je doen als je ziet dat iemand online gepest wordt?",
-        opties: [
-            "A. Niks, het is niet jouw probleem",
-            "B. De pestkop aanmoedigen voor de grap",
-            "C. De gepeste persoon steunen (helpen) en het melden bij een volwassene of platform"
-        ],
-        juisteAntwoord: 2,
-        afbeelding: "images/pesten-steunen.png"
-    },
-    {
-        vraag: "Welke organisatie kan helpen bij cyberpesten?",
-        opties: [
-            "A. De ANWB (hulp bij autopech)",
-            "B. De politie en Meldknop.nl (een website voor online problemen)",
-            "C. Netflix (een streamingdienst)"
-        ],
-        juisteAntwoord: 1,
-        afbeelding: "images/organisatie-helpen.png"
-    },
-
-    // Open vragen
-    {
-        vraag: "Wat zou jij doen als een vriend(in) online gepest wordt?",
-        openVraag: true, // Aanduiding dat dit een open vraag is
-        afbeelding: "images/online-steunen.png"
-    },
-    {
-        vraag: "Waarom doen sommige mensen online gemeen terwijl ze in het echt anders doen?",
-        openVraag: true, // Aanduiding dat dit een open vraag is
-        afbeelding: "images/gemeen-online.png"
-    },
-    {
-        vraag: "Noem drie manieren om jezelf te beschermen tegen cyberpesten.",
-        openVraag: true, // Aanduiding dat dit een open vraag is
-        afbeelding: "images/bescherming.png"
-    },
-    {
-        vraag: "Wat zijn de verschillen tussen cyberpesten en gewoon pesten op school?",
-        openVraag: true, // Aanduiding dat dit een open vraag is
-        afbeelding: "images/verschillen-pesten.png"
-    },
-    {
-        vraag: "Wat kunnen social media zoals TikTok en Instagram doen om cyberpesten te stoppen?",
-        openVraag: true, // Aanduiding dat dit een open vraag is
-        afbeelding: "images/social-media.png"
-    }
+let questions = [
+    { type: 'mc', question: 'Wat is cyberpesten?', options: ['A. Een vriend een meme sturen', 'B. Iemand online beledigen en bedreigen', 'C. Een privégesprek voeren'], answer: 'B' },
+    { type: 'mc', question: 'Welke gevolgen kan cyberpesten hebben?', options: ['A. Stress en angst', 'B. Hogere cijfers op school', 'C. Meer vrienden maken'], answer: 'A' },
+    { type: 'mc', question: 'Wat is een voorbeeld van cyberpesten?', options: ['A. Een positief bericht sturen', 'B. Iemand uitlachen in een groepschat', 'C. Iemand helpen met huiswerk'], answer: 'B' },
+    { type: 'mc', question: 'Wat kun je doen als je wordt gepest online?', options: ['A. Negeren en wegklikken', 'B. Terugpesten', 'C. Het melden bij een volwassene'], answer: 'C' },
+    { type: 'mc', question: 'Welke platforms worden het vaakst gebruikt voor cyberpesten?', options: ['A. Online games', 'B. Sociale media', 'C. Beide'], answer: 'C' },
+    { type: 'mc', question: 'Wat is een catfish?', options: ['A. Een nepaccount dat iemand anders nadoet', 'B. Een vissoort', 'C. Een online quiz'], answer: 'A' },
+    { type: 'mc', question: 'Wat is doxxing?', options: ['A. Het openbaar maken van iemands privégegevens', 'B. Een online game spelen', 'C. Een beveiligingsmaatregel'], answer: 'A' },
+    { type: 'mc', question: 'Wat kun je doen als je ziet dat iemand cyberpesten meemaakt?', options: ['A. Er niets aan doen', 'B. De persoon steunen en het melden', 'C. Meedoen met het pesten'], answer: 'B' },
+    { type: 'mc', question: 'Wat is het effect van cyberpesten op slachtoffers?', options: ['A. Meer zelfvertrouwen', 'B. Angst en depressie', 'C. Meer vrienden maken'], answer: 'B' },
+    { type: 'mc', question: 'Waarom is cyberpesten zo gevaarlijk?', options: ['A. Het blijft vaak anoniem', 'B. Slachtoffers kunnen zich machteloos voelen', 'C. Beide zijn correct'], answer: 'C' },
+    { type: 'open', question: 'Wat zou jij doen als je wordt gepest online?', answer: '' },
+    { type: 'open', question: 'Waarom denk je dat mensen cyberpesten?', answer: '' },
+    { type: 'open', question: 'Wat kan de overheid doen tegen cyberpesten?', answer: '' },
+    { type: 'open', question: 'Heb jij ooit cyberpesten meegemaakt? Zo ja, hoe voelde dat?', answer: '' },
+    { type: 'open', question: 'Wat zou jij veranderen aan social media om cyberpesten te verminderen?', answer: '' }
 ];
 
-let huidigeVraagIndex = 0;
+let userAnswers = {};
+let currentQuestionIndex = 0;
 
-// Functie om de quizdata willekeurig te schudden (behalve de eerste vraag)
-function schudVraagData() {
-    // Haal de eerste vraag eruit, die blijft altijd als eerste
-    const eersteVraag = quizData[0];
-
-    // Maak een nieuw array met de overige vragen
-    const overigeVragen = quizData.slice(1);
-
-    // Schud de overige vragen
-    for (let i = overigeVragen.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [overigeVragen[i], overigeVragen[j]] = [overigeVragen[j], overigeVragen[i]];
-    }
-
-    // Voeg de eerste vraag weer toe aan het begin van de lijst
-    quizData.length = 0;
-    quizData.push(eersteVraag, ...overigeVragen);
+function shuffleQuestions() {
+    questions = questions.sort(() => Math.random() - 0.5);
 }
 
-// Roep de functie aan om de quizdata te schudden
-schudVraagData();
+function startQuiz() {
+    shuffleQuestions();
+    document.querySelector('.content').style.display = 'none';
+    document.querySelector('.content2').style.display = 'block';
+    document.getElementById('menu').style.display = 'block';
+    loadQuestion();
+}
 
-const vraagTitel = document.querySelector(".quiz h1");
-const vraagTekst = document.querySelector(".quiz h2");
-const antwoordOpties = document.querySelectorAll(".quiz label");
-const afbeelding = document.querySelector(".image");
-const volgendeKnop = document.getElementById("volgende-btn");
-const vorigeKnop = document.getElementById("vorige-btn");
-const menuItems = document.querySelectorAll(".menu2 h1");
-const inputContainer = document.querySelector(".input-container"); // Dit is waar we het invoerveld boven de knoppen plaatsen
+function nextQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
 
-function laadVraag(index) {
-    const vraagData = quizData[index];
-
-    vraagTitel.textContent = `Vraag ${index + 1}`;
-    vraagTekst.textContent = vraagData.vraag;
-
-    // Maak de container voor inputvelden leeg voor de volgende vraag
-    inputContainer.innerHTML = "";
-
-    // Als het een open vraag is, toon een tekstveld boven de knoppen
-    if (vraagData.openVraag) {
-        const inputVeld = document.createElement("input");
-        inputVeld.type = "text";
-        inputVeld.placeholder = "Schrijf hier je antwoord...";
-        inputVeld.classList.add("openvraag-input");
-        inputContainer.appendChild(inputVeld); // Voeg het invoerveld toe aan de container boven de knoppen
+    if (currentQuestion.type === 'mc') {
+        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+        if (!selectedAnswer) {
+            alert('Selecteer een antwoord voordat je verder gaat!');
+            return;
+        }
+        userAnswers[currentQuestionIndex] = selectedAnswer.value;
     } else {
-        antwoordOpties.forEach((label, i) => {
-            label.style.display = "block"; // Maak de opties weer zichtbaar
-            const radioId = `antwoord-${index}-${i}`;
-            label.innerHTML = `<input type="radio" name="antwoord" id="${radioId}" value="${i}"> ${vraagData.opties[i]}`;
-            label.setAttribute("for", radioId);
+        const answerInput = document.querySelector('#answer-input').value.trim();
+        if (!answerInput) {
+            alert('Vul een antwoord in voordat je verder gaat!');
+            return;
+        }
+        userAnswers[currentQuestionIndex] = answerInput;
+    }
+
+    if (currentQuestionIndex < 14) {
+        currentQuestionIndex++;
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion();
+    }
+}
+
+function updateMenu() {
+    const menu = document.getElementById("menu");
+    menu.innerHTML = "";
+    for (let i = 1; i <= 15; i++) {
+        let vraagNummer = document.createElement("h1");
+        vraagNummer.textContent = i;
+        vraagNummer.style.color = (i === currentQuestionIndex + 1) ? 'rgb(131,58,180)' : 'black';
+        menu.appendChild(vraagNummer);
+    }
+}
+
+function loadQuestion() {
+    const questionData = questions[currentQuestionIndex];
+    document.querySelector('.quiz h1').textContent = `Vraag ${currentQuestionIndex + 1}`;
+    document.querySelector('.quiz h2').textContent = questionData.question;
+    const answerContainer = document.getElementById('answer-container');
+    answerContainer.innerHTML = "";
+
+    if (questionData.type === 'mc') {
+        questionData.options.forEach(option => {
+            let label = document.createElement('label');
+            label.innerHTML = `<input type="radio" name="answer" value="${option[0]}"> ${option}`;
+            answerContainer.appendChild(label);
         });
-    }
-
-    afbeelding.style.backgroundImage = `url('${vraagData.afbeelding}')`;
-
-    // Maak eerst alle menu-items zwart
-    menuItems.forEach(item => item.style.color = "black");
-
-    // Kleur het actieve vraagnummer paars
-    menuItems[index].style.color = "rgb(131,58,180)";
-
-    // Verberg de "Vorige" knop als we op de eerste vraag zijn
-    if (index === 0) {
-        vorigeKnop.style.display = "none"; // Verberg de vorige knop
     } else {
-        vorigeKnop.style.display = "inline-block"; // Zorg dat de vorige knop zichtbaar is
+        answerContainer.innerHTML = `<input type="text" id="answer-input" placeholder="Typ hier je antwoord...">`;
     }
+
+    document.getElementById('volgende-btn').textContent = currentQuestionIndex === 14 ? 'Nakijken' : 'Volgende';
+    updateMenu();
 }
 
-// Event Listeners voor de knoppen
-volgendeKnop.addEventListener("click", () => {
-    // Ga altijd door naar de volgende vraag, zonder enige validatie
-    if (huidigeVraagIndex < quizData.length - 1) {
-        huidigeVraagIndex++;
-        laadVraag(huidigeVraagIndex);
-    }
-});
+function showResults() {
+    alert('Je hebt de quiz voltooid! Bekijk je antwoorden.');
+}
 
-vorigeKnop.addEventListener("click", () => {
-    if (huidigeVraagIndex > 0) {
-        huidigeVraagIndex--;
-        laadVraag(huidigeVraagIndex);
-    }
-});
-
-// Start met de eerste vraag
-laadVraag(huidigeVraagIndex);
+document.addEventListener('DOMContentLoaded', loadQuestion);

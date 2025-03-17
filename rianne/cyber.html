@@ -12,62 +12,47 @@
     <div class="container">
         <div class="header">
             <div class="nav">
-            <a href="..">Home</a>
+            <a href="../index.html">Home</a>
             <a href="#">||</a>
             <a href="cyber.html" id="active">Quiz Cyberpesten</a>
             <a href="#Menno">Quiz Online veiligheid</a>
             <a href="#Yara">Quiz Social media terminologie</a>
         </div>
     </div>
-        <div class="menu"></div>
-        <div class="content">
-            <div class="cyber">
-            <h1>Welkom bij de quiz Cyberpesten & Criminaliteit!</h1>
-            <p>In deze quiz behandelen we het onderwerp cyberpesten. Het doel van deze quiz is om te leren wat cyberpesten inhoudt.</p>
-            <h2>Wat is cyberpesten?</h2>
-            <p>Cyberpesten is het pesten van iemand via internet, zoals op social media, in chatgroepen of via berichten. Dit kan gebeuren door gemeen gedrag, bedreigingen, roddels of het delen van privéfoto’s zonder toestemming. Cyberpesten kan ernstige gevolgen hebben, zoals stress, angst en zelfs depressie.</p>
-            <br>
-            <p>Nu je weet waar de quiz over gaat, kun je de quiz starten door hieronder op de knop "Start quiz" te klikken.</p>
-            <button id="start-btn">Start quiz</button>
-            </div>
-        </div>
-
-      <div class="menu2">
-          <h1 style="color: rgb(131,58,180);">1</h1>
-          <h1>2</h1>
-          <h1>3</h1>
-          <h1>4</h1>
-          <h1>5</h1>
-          <h1>6</h1>
-          <h1>7</h1>
-          <h1>8</h1>
-          <h1>9</h1>
-          <h1>10</h1>
-          <h1>11</h1>
-          <h1>12</h1>
-          <h1>13</h1>
-          <h1>14</h1>
-          <h1>15</h1>
-        </div>
-      <div class="content2">
-        <div class="image" style="background-image: url('images/cyberpesten.png');"></div>
-        <div class="quiz">
-          <h1>Vraag 1</h1>
-          <h2>Wat is cyberpesten?</h2>
-          <label for="antwoordA">
-            <input type="radio"> A. Een vriend een grappige meme sturen
-          </label>
-          <label for="antwoordB">
-            <input type="radio"> B.  Iemand online beledigen (gemeen doen) en bedreigen (bang maken)
-          </label>
-          <label for="antwoordC">
-            <input type="radio"> C. Een privégesprek met iemand voeren
-          </label>
-          <button id="volgende-btn">Volgende</button>
-          <button id="vorige-btn">Vorige</button>
+      <div class="menu" id="menu" style="display: none;"></div>
+      <div class="content">
+          <div class="cyber">
+              <h1>Welkom bij de quiz Cyberpesten & Criminaliteit!</h1>
+              <p>In deze quiz behandelen we het onderwerp cyberpesten. Het doel van deze quiz is om te leren wat cyberpesten inhoudt.</p>
+              <p>Nu je weet waar de quiz over gaat, kun je de quiz starten door hieronder op de knop "Start quiz" te klikken.</p>
+              <button id="start-btn" onclick="startQuiz()">Start quiz</button>
           </div>
       </div>
-</div>
+      <div class="content2" style="display: none;">
+          <div class="image" style="background-image: url('images/cyberpesten.png');"></div>
+          <div class="quiz">
+              <h1>Vraag 1</h1>
+              <h2></h2>
+              <div id="answer-container"></div>
+              <button id="volgende-btn" onclick="nextQuestion()">Volgende</button>
+              <button id="vorige-btn" onclick="prevQuestion()" style="display: none;">Vorige</button>
+          </div>
+      </div>
+  </div>
+          <div class="header">
+              <h1>Quiz Cyberpesten & Online Criminaliteit</h1>
+          </div>
+          <div class="content2" style="display: none;">
+            <div class="image" style="background-image: url('images/cyberpesten.png');"></div>
+            <div class="quiz">
+                <h1>Vraag 1</h1>
+                <h2></h2>
+                <div id="answer-container"></div>
+                <button id="volgende-btn" onclick="nextQuestion()">Volgende</button>
+                <button id="vorige-btn" onclick="prevQuestion()" style="display: none;">Vorige</button>
+            </div>
+        </div>
+     </div>
     
     
 </body>

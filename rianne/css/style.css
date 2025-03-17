@@ -181,10 +181,9 @@ body {
 }
 
 .quiz, label {
-    padding-top: 15px;
-    cursor: pointer;
+        display: block;  /* Zorgt ervoor dat elke optie onder elkaar staat */
+        margin: 5px 0;
 }
-
 .image {
     height: 200px;
     width: 300px;
