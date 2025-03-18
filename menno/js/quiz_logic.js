@@ -90,6 +90,15 @@ function show_question(index) {
     document.getElementById("awn_c").classList.remove("selected");
     document.getElementById("awn_d").classList.remove("selected");
 
+    const questionImage = document.querySelector(".question_image");
+    if (question.image) {
+        questionImage.src = question.image;
+        questionImage.classList.remove("hidden");
+    } else {
+        questionImage.src = "";
+        questionImage.classList.add("hidden");
+    }
+
     if (question.questionType === "multiple_choice") {
         for (let option in question.answers) {
             const element = document.getElementById(`awn_${option}`);
@@ -129,7 +138,6 @@ function confirm() {
             alert("Vul alsjeblieft een antwoord in.");
             return;
         }
-        // Just store the answer text for now
         user_answers[current_index] = {
             text: answer_text,
             self_evaluated: false,
@@ -141,7 +149,6 @@ function confirm() {
     if (current_index < selected_questions.length - 1) {
         show_question(current_index + 1);
     } else {
-        // Check if we have open-ended questions that need self-evaluation
         const open_ended_indices = [];
         for (let i = 0; i < selected_questions.length; i++) {
             if (selected_questions[i].questionType === "open_ended" && 
@@ -159,7 +166,6 @@ function confirm() {
     }
 }
 
-// New function to show the evaluation screen for all open-ended questions
 function show_open_ended_evaluation(indices, current) {
     if (current >= indices.length) {
         end_quiz_and_show_results();
@@ -173,29 +179,29 @@ function show_open_ended_evaluation(indices, current) {
     const quiz_element = document.getElementById("quiz");
     
     let evaluation_html = `
-        <div class="self-evaluation">
+        <div class="self_evaluation">
             <h2>Beoordeel je antwoord (${current + 1} van ${indices.length})</h2>
-            <div class="evaluation-content">
-                <div class="question-container">
+            <div class="evaluation_content">
+                <div class="question_container">
                     <h3>Vraag:</h3>
-                    <p class="question-text">${question.question}</p>
+                    <p class="question_text">${question.question}</p>
                 </div>
-                <div class="user-answer-container">
+                <div class="user_answer_container">
                     <h3>Jouw antwoord:</h3>
-                    <p class="user-answer">${user_answer}</p>
+                    <p class="user_answer">${user_answer}</p>
                 </div>
-                <div class="correct-answer-container">
+                <div class="correct_answer_container">
                     <h3>Voorbeeld antwoord:</h3>
-                    <p class="correct-answer">${question.correct_answer}</p>
+                    <p class="correct_answer">${question.correct_answer}</p>
                 </div>
-                <div class="explanation-container">
+                <div class="explanation_container">
                     <h3>Uitleg:</h3>
                     <p class="explanation">${question.explanation}</p>
                 </div>
-                <p class="evaluation-question">Was jouw antwoord correct?</p>
-                <div class="evaluation-buttons">
-                    <button id="eval-correct" class="evaluation-button">Ja, correct</button>
-                    <button id="eval-incorrect" class="evaluation-button">Nee, incorrect</button>
+                <p class="evaluation_question">Was jouw antwoord correct?</p>
+                <div class="evaluation_buttons">
+                    <button id="eval_correct" class="evaluation_button">Ja, correct</button>
+                    <button id="eval_incorrect" class="evaluation_button">Nee, incorrect</button>
                 </div>
             </div>
         </div>
@@ -203,14 +209,14 @@ function show_open_ended_evaluation(indices, current) {
     
     quiz_element.innerHTML = evaluation_html;
     
-    document.getElementById("eval-correct").addEventListener("click", function() {
+    document.getElementById("eval_correct").addEventListener("click", function() {
         user_answers[questionIndex].self_evaluated = true;
         user_answers[questionIndex].is_correct = true;
         correct_answers++;
         show_open_ended_evaluation(indices, current + 1);
     });
     
-    document.getElementById("eval-incorrect").addEventListener("click", function() {
+    document.getElementById("eval_incorrect").addEventListener("click", function() {
         user_answers[questionIndex].self_evaluated = true;
         user_answers[questionIndex].is_correct = false;
         incorrect_answers++;
@@ -219,7 +225,7 @@ function show_open_ended_evaluation(indices, current) {
 }
 
 function update_question_list() {
-    let html = "<h3>Vragen:</h3><ul class='question-nav'>";
+    let html = "<h3>Vragen:</h3><ul class='question_nav'>";
     for (let i = 0; i < selected_questions.length; i++) {
         const status = user_answers[i] ? "beantwoord" : "onbeantwoord";
         const current = i === current_index ? " current" : "";
@@ -272,7 +278,6 @@ function end_quiz_and_show_results() {
                 explanation: question.explanation || "Geen uitleg beschikbaar"
             });
         } else if (question.questionType === "open_ended") {
-            // Use self-evaluation result
             if (user_answer.self_evaluated) {
                 if (user_answer.is_correct) {
                     correct_answers++;
@@ -297,29 +302,50 @@ function end_quiz_and_show_results() {
         }
     }
     
-    // Calculate score on a 1-10 scale
     const percentage = (correct_answers / selected_questions.length) * 100;
     const score_out_of_ten = Math.max(1, Math.min(10, Math.round(percentage / 10)));
     
+    let status_class = "";
+    let result_message = "";
+    
+    if (score_out_of_ten >= 8) {
+        status_class = "passing";
+        result_message = "Uitstekend! Je kent de basis van online veiligheid goed!";
+    } else if (score_out_of_ten >= 6) {
+        status_class = "mediocre";
+        result_message = "Voldoende! Je hebt een goede basiskennis van online veiligheid.";
+    } else {
+        status_class = "failing";
+        result_message = "Je moet nog wat bijleren over online veiligheid!";
+    }
+    
     let quiz_element = document.getElementById("quiz");
+    quiz_element.classList.add(status_class);
     let results_html = `
-        <div class="results">
+        <div class="results c">
             <h2>Quiz Resultaten</h2>
+            
+            <div class="score-circle ${status_class}">
+                ${score_out_of_ten}
+            </div>
+            
+            <div class="result-message ${status_class}">
+                ${result_message}
+            </div>
+            
             <p>Correcte antwoorden: ${correct_answers}</p>
             <p>Onjuiste antwoorden: ${incorrect_answers}</p>
             <p>Onbeantwoorde vragen: ${unanswered}</p>
             <p>Percentage: ${Math.round((correct_answers / selected_questions.length) * 100)}%</p>
-            <p>Score: ${score_out_of_ten}/10</p>
+            
             <h3>Gedetailleerde resultaten:</h3>
-            <div class="detailed-results">
+            <div class="detailed_results">
     `;
 
     for (let result of results_by_question) {
         const status_class = result.is_correct ? "correct" : (result.user_answer === "Niet beantwoord" || (result.question_type === "open_ended" && !result.self_evaluated) ? "unanswered" : "incorrect");
-        
-        // Only show details for incorrect or unanswered questions
         if (!result.is_correct) {
-            results_html += `<div class="question-result ${status_class}">`;
+            results_html += `<div class="question_result ${status_class}">`;
             results_html += `<h4>Vraag ${result.question_num}: ${result.question}</h4>`;
             if (result.question_type === "multiple_choice") {
                 results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" : 
@@ -342,6 +368,25 @@ function end_quiz_and_show_results() {
     `;
     
     quiz_element.innerHTML = results_html;
+    if (status_class === "passing") {
+        const confettiContainer = document.createElement('div');
+        confettiContainer.className = 'confetti-container';
+        
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.width = `${Math.random() * 10 + 5}px`;
+            confetti.style.height = `${Math.random() * 10 + 5}px`;
+            confetti.style.backgroundColor = getRandomColor();
+            confetti.style.animationDelay = `${Math.random() * 5}s`;
+            confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
+            confettiContainer.appendChild(confetti);
+        }
+        
+        document.querySelector('.results').prepend(confettiContainer);
+    }
+    
     quiz_vragen_lijst.classList.add("hidden");
     quiz.classList.remove("quiz");
     quiz.classList.add("landing");
@@ -351,6 +396,16 @@ function end_quiz_and_show_results() {
     end_quiz();
 }
 
+function getRandomColor() {
+    const colors = [
+        '#f44336', '#e91e63', '#9c27b0', '#673ab7', 
+        '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', 
+        '#009688', '#4CAF50', '#8BC34A', '#CDDC39', 
+        '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
 function navigate_to_question(index) {
     show_question(index);
 }
@@ -358,7 +413,7 @@ function navigate_to_question(index) {
 window.addEventListener("beforeunload", function (event) {
     if (quiz_active) {
         event.preventDefault();
-        event.returnValue = "Changes you made may not be saved. Are you sure you want to leave the quiz?";
+        event.returnValue = "Changes you made mayI not be saved. Are you sure you want to leave the quiz?";
         return event.returnValue;
     }
 });
@@ -390,11 +445,12 @@ let questions = {
         answers: {
             a: "Een wachtwoord dat bestaat uit kleine letters, cijfers en speciale tekens",
             b: "Een wachtwoord dat je overal kan gebruiken",
-            c: "Een wachtwoord dat bestaat uit een combinatie van letters kleine en hoofdletters, cijfers en speciale tekens",
+            c: "Een wachtwoord dat bestaat uit een combinatie van kleine letters, hoofdletters letters, cijfers en speciale tekens",
             d: "Een wachtwoord dat je makkelijk onthoud en overal gebruikt"
         },
         correct_answer: "c",
-        explanation: "Een sterk wachtwoord bevat een mix van hoofdletters, kleine letters, cijfers en speciale tekens. Dit maakt het moeilijker voor hackers om te kraken via brute force aanvallen of woordenboek-aanvallen."
+        explanation: "Een sterk wachtwoord bevat een mix van hoofdletters, kleine letters, cijfers en speciale tekens. Dit maakt het moeilijker voor hackers om te kraken via brute force aanvallen of woordenboek-aanvallen.",
+        image: "./img/password.png"
     },
     2: {
         questionType: "multiple_choice",
@@ -406,7 +462,8 @@ let questions = {
             d: "Een manier om software te updaten"
         },
         correct_answer: "c",
-        explanation: "Phishing is een cybercrime waarbij aanvallers mensen misleiden om persoonlijke informatie zoals wachtwoorden en creditcardgegevens af te staan. Ze doen zich vaak voor als betrouwbare entiteiten in elektronische communicatie."
+        explanation: "Phishing is een cybercrime waarbij aanvallers mensen misleiden om persoonlijke informatie zoals wachtwoorden en creditcardgegevens af te staan. Ze doen zich vaak voor als betrouwbare entiteiten in elektronische communicatie.",
+        image: "./img/phishing.png"
     },
     3: {
         questionType: "multiple_choice",
@@ -418,7 +475,8 @@ let questions = {
             d: "Een hardware-apparaat dat alleen computers voedt"
         },
         correct_answer: "a",
-        explanation: "Een firewall is een beveiligingssysteem dat netwerkverkeer controleert en filtert volgens vooraf ingestelde beveiligingsregels. Het vormt een barrière tussen je apparaat of netwerk en potentieel schadelijk internetverkeer."
+        explanation: "Een firewall is een beveiligingssysteem dat netwerkverkeer controleert en filtert volgens vooraf ingestelde beveiligingsregels. Het vormt een barrière tussen je apparaat of netwerk en potentieel schadelijk internetverkeer.",
+        image: null
     },
     4: {
         questionType: "multiple_choice",
@@ -430,7 +488,8 @@ let questions = {
             d: "Om ruimte op de harde schijf te besparen"
         },
         correct_answer: "b",
-        explanation: "Software-updates bevatten vaak patches voor beveiligingslekken die door hackers zouden kunnen worden uitgebuit. Door je software up-to-date te houden, bescherm je jezelf tegen bekende kwetsbaarheden."
+        explanation: "Software-updates bevatten vaak patches voor beveiligingslekken die door hackers zouden kunnen worden uitgebuit. Door je software up-to-date te houden, bescherm je jezelf tegen bekende kwetsbaarheden.",
+        image: null
     },
     5: {
         questionType: "multiple_choice",
@@ -442,7 +501,8 @@ let questions = {
             d: "Een netwerk voor het delen van bestanden"
         },
         correct_answer: "a",
-        explanation: "Een botnet is een netwerk van geïnfecteerde computers die op afstand worden bestuurd door een aanvaller. Deze 'zombies' kunnen samen worden gebruikt voor grootschalige aanvallen zoals DDoS of spam-distributie."
+        explanation: "Een botnet is een netwerk van geïnfecteerde computers die op afstand worden bestuurd door een aanvaller. Deze 'zombies' kunnen samen worden gebruikt voor grootschalige aanvallen zoals DDoS of spam-distributie.",
+        image: "./img/botnet.png"
     },
     6: {
         questionType: "multiple_choice",
@@ -454,7 +514,8 @@ let questions = {
             d: "Een type virale video"
         },
         correct_answer: "b",
-        explanation: "Spear phishing is een gerichte vorm van phishing waarbij aanvallers specifieke individuen of organisaties benaderen met gepersonaliseerde berichten. Ze verzamelen vooraf informatie over hun doelwit om geloofwaardiger over te komen."
+        explanation: "Spear phishing is een gerichte vorm van phishing waarbij aanvallers specifieke individuen of organisaties benaderen met gepersonaliseerde berichten. Ze verzamelen vooraf informatie over hun doelwit om geloofwaardiger over te komen.",
+        image: null
     },
     7: {
         questionType: "multiple_choice",
@@ -466,7 +527,8 @@ let questions = {
             d: "Een dienst die je internetverkeer versleutelt en je privacy beschermt"
         },
         correct_answer: "d",
-        explanation: "Een Virtual Private Network (VPN) creëert een versleutelde verbinding tussen je apparaat en een server op het internet. Het verbergt je IP-adres en versleutelt je internetverkeer, wat je privacy beschermt en helpt om censuur te omzeilen."
+        explanation: "Een Virtual Private Network (VPN) creëert een versleutelde verbinding tussen je apparaat en een server op het internet. Het verbergt je IP-adres en versleutelt je internetverkeer, wat je privacy beschermt en helpt om censuur te omzeilen.",
+        image: "./img/vpn.png"
     },
     8: {
         questionType: "multiple_choice",
@@ -478,7 +540,8 @@ let questions = {
             d: "Ze versleutelen automatisch je data"
         },
         correct_answer: "b",
-        explanation: "Openbare Wi-Fi netwerken zijn vaak onbeveiligd, waardoor aanvallers het netwerkverkeer kunnen onderscheppen en gevoelige informatie kunnen stelen. Ze kunnen ook 'evil twin' netwerken opzetten die zich voordoen als legitieme netwerken."
+        explanation: "Openbare Wi-Fi netwerken zijn vaak onbeveiligd, waardoor aanvallers het netwerkverkeer kunnen onderscheppen en gevoelige informatie kunnen stelen. Ze kunnen ook 'evil twin' netwerken opzetten die zich voordoen als legitieme netwerken.",
+        image: "./img/open_wifi.jpg"
     },
     9: {
         questionType: "multiple_choice",
@@ -490,7 +553,8 @@ let questions = {
             d: "Om software te installeren"
         },
         correct_answer: "b",
-        explanation: "Back-ups zijn essentieel om je gegevens te beschermen tegen verlies door hardware-fouten, ransomware, diefstal of andere calamiteiten. Met een goede back-up kun je je systeem herstellen en gegevensverlies minimaliseren."
+        explanation: "Back-ups zijn essentieel om je gegevens te beschermen tegen verlies door hardware-fouten, ransomware, diefstal of andere calamiteiten. Met een goede back-up kun je je systeem herstellen en gegevensverlies minimaliseren.",
+        image: null
     },
     10: {
         questionType: "multiple_choice",
@@ -502,7 +566,8 @@ let questions = {
             d: "Gebruikers kunnen hun eigen toegangsrechten bepalen"
         },
         correct_answer: "a",
-        explanation: "Het principe van minste privilege houdt in dat gebruikers en systemen alleen toegang krijgen tot de data en resources die ze nodig hebben voor hun taak. Dit beperkt de schade die kan ontstaan bij een gehackt account of systeem."
+        explanation: "Het principe van minste privilege houdt in dat gebruikers en systemen alleen toegang krijgen tot de data en resources die ze nodig hebben voor hun taak. Dit beperkt de schade die kan ontstaan bij een gehackt account of systeem.",
+        image: null
     },
     11: {
         questionType: "multiple_choice",
@@ -514,7 +579,8 @@ let questions = {
             d: "Een aanval die malware verspreidt"
         },
         correct_answer: "a",
-        explanation: "Bij een brute force aanval probeert een aanvaller systematisch alle mogelijke wachtwoorden of sleutels uit totdat het juiste wordt gevonden. Dit type aanval kan worden tegengegaan met complexe wachtwoorden en inlogbeperkingen."
+        explanation: "Bij een brute force aanval probeert een aanvaller systematisch alle mogelijke wachtwoorden of sleutels uit totdat het juiste wordt gevonden. Dit type aanval kan worden tegengegaan met complexe wachtwoorden en inlogbeperkingen.",
+        image: null
     },
     12: {
         questionType: "multiple_choice",
@@ -526,7 +592,8 @@ let questions = {
             d: "Het is niet riskant"
         },
         correct_answer: "b",
-        explanation: "Als één website of dienst een datalek heeft en je wachtwoord wordt gestolen, kunnen aanvallers toegang krijgen tot al je accounts waar je hetzelfde wachtwoord gebruikt. Dit wordt 'credential stuffing' genoemd."
+        explanation: "Als één website of dienst een datalek heeft en je wachtwoord wordt gestolen, kunnen aanvallers toegang krijgen tot al je accounts waar je hetzelfde wachtwoord gebruikt. Dit wordt 'credential stuffing' genoemd.",
+        image: null
     },
     13: {
         questionType: "multiple_choice",
@@ -538,19 +605,21 @@ let questions = {
             d: "Het verwijderen van malware"
         },
         correct_answer: "b",
-        explanation: "Encryptie is het proces waarbij gegevens worden omgezet in een code om ongeautoriseerde toegang te voorkomen. Alleen met de juiste sleutel (decryptiesleutel) kunnen de gegevens weer leesbaar worden gemaakt."
+        explanation: "Encryptie is het proces waarbij gegevens worden omgezet in een code om ongeautoriseerde toegang te voorkomen. Alleen met de juiste sleutel (decryptiesleutel) kunnen de gegevens weer leesbaar worden gemaakt.",
+        image: "./img/encryption.jpg"
     },
     14: {
         questionType: "multiple_choice",
         question: "Wat betekent twee-factor authenticatie?",
         answers: {
             a: "Het gebruik van twee wachtwoorden",
-            b: "Het gebruik van een wachtwoord en een biometrische factor",
-            c: "Het combineren van een wachtwoord met een extra verificatie, zoals een code via sms",
-            d: "Het gebruik van tweemaal hetzelfde wachtwoord"
+            b: "Het gebruik van een wachtwoord en antwoord op een beveiligingsvraag",
+            c: "Het combineren van een wachtwoord met een extra verificatie, zoals een TOTP code via Authy.",
+            d: "Het gebruik van tweemaal hetzelfde wachtwoord",
         },
         correct_answer: "c",
-        explanation: "Twee-factor authenticatie (2FA) voegt een extra beveiligingslaag toe aan het inlogproces door naast een wachtwoord (iets wat je weet) ook een tweede factor te vereisen, zoals een tijdelijke code op je telefoon (iets wat je hebt)."
+        explanation: "Twee-factor authenticatie (2FA) voegt een extra beveiligingslaag toe aan het inlogproces door naast een wachtwoord (iets wat je weet) ook een tweede factor te vereisen, zoals een tijdelijke code op je telefoon (iets wat je hebt).",
+        image: "./img/2fa.jpg"
     },
     15: {
         questionType: "multiple_choice",
@@ -562,7 +631,8 @@ let questions = {
             d: "Een techniek voor data-encryptie"
         },
         correct_answer: "b",
-        explanation: "Social engineering is het psychologisch manipuleren van mensen om vertrouwelijke informatie prijs te geven of bepaalde acties uit te voeren. Het maakt gebruik van menselijke fouten en vertrouwen in plaats van technische hacking."
+        explanation: "Social engineering is het psychologisch manipuleren van mensen om vertrouwelijke informatie prijs te geven of bepaalde acties uit te voeren. Het maakt gebruik van menselijke fouten en vertrouwen in plaats van technische hacking.",
+        image: null
     },
     16: {
         questionType: "multiple_choice",
@@ -574,66 +644,76 @@ let questions = {
             d: "Het overbelasten van een server met verkeer"
         },
         correct_answer: "d",
-        explanation: "Een Distributed Denial of Service (DDoS) aanval overbelast een website of service door een enorme hoeveelheid verkeer te genereren vanaf meerdere bronnen, waardoor de service ontoegankelijk wordt voor legitieme gebruikers."
+        explanation: "Een Distributed Denial of Service (DDoS) aanval overbelast een website of service door een enorme hoeveelheid verkeer te genereren vanaf meerdere bronnen, waardoor de service ontoegankelijk wordt voor legitieme gebruikers.",
+        image: null
     },
     17: {
         questionType: "multiple_choice",
         question: "Wat is de rol van educatie in cyberbeveiliging?",
         answers: {
             a: "Om mensen te leren hoe ze websites kunnen bouwen",
-            b: "Om mensen bewust te maken van de risico\"s en hoe ze zich kunnen beschermen",
+            b: "Om mensen bewust te maken van de risico's en hoe ze zich kunnen beschermen",
             c: "Om software-updates te installeren",
             d: "Om hardware te repareren"
         },
         correct_answer: "b",
-        explanation: "Educatie is cruciaal in cyberbeveiliging omdat veel aanvallen gebruik maken van menselijk gedrag en fouten. Door mensen te onderwijzen over risico's en best practices, kunnen ze zichzelf beter beschermen tegen cyberdreigingen."
+        explanation: "Educatie is cruciaal in cyberbeveiliging omdat veel aanvallen gebruik maken van menselijk gedrag en fouten. Door mensen te onderwijzen over risico's en best practices, kunnen ze zichzelf beter beschermen tegen cyberdreigingen.",
+        image: null
     },
     18: {
         questionType: "open_ended",
         question: "Beschrijf hoe phishing werkt en welke methoden je kunt gebruiken om jezelf te beschermen.",
         correct_answer: "Phishing is een methode waarbij aanvallers via valse e-mails of websites proberen persoonlijke informatie te stelen; bescherm jezelf door verdachte links te vermijden en de echtheid van de afzender te verifiëren.",
-        explanation: "Phishing werkt door je te misleiden met e-mails of berichten die legitiem lijken maar eigenlijk zijn ontworpen om je persoonlijke gegevens te stelen. Je kunt jezelf beschermen door links niet direct aan te klikken, de URL te controleren voordat je gegevens invoert, en contact op te nemen met de organisatie via officiële kanalen als je twijfelt."
+        explanation: "Phishing werkt door je te misleiden met e-mails of berichten die legitiem lijken maar eigenlijk zijn ontworpen om je persoonlijke gegevens te stelen. Je kunt jezelf beschermen door links niet direct aan te klikken, de URL te controleren voordat je gegevens invoert, en contact op te nemen met de organisatie via officiële kanalen als je twijfelt.",
+        image: null
     },
     19: {
         questionType: "open_ended",
         question: "Wat zijn de voordelen van het gebruik van een VPN voor online privacy?",
         correct_answer: "Een VPN versleutelt je internetverkeer en verbergt je IP-adres, wat je online privacy beschermt en het risico op afluisteren vermindert.",
-        explanation: "Een VPN (Virtual Private Network) versleutelt al je internetverkeer en maskeert je IP-adres, waardoor je privacy online wordt beschermd. Het voorkomt dat ISP's, websites of hackers je browseactiviteiten kunnen volgen, helpt bij het omzeilen van geografische beperkingen, en biedt bescherming wanneer je openbare Wi-Fi gebruikt."
+        explanation: "Een VPN (Virtual Private Network) versleutelt al je internetverkeer en maskeert je IP-adres, waardoor je privacy online wordt beschermd. Het voorkomt dat ISP's, websites of hackers je browseactiviteiten kunnen volgen, helpt bij het omzeilen van geografische beperkingen, en biedt bescherming wanneer je openbare Wi-Fi gebruikt.",
+        image: null
     },
     20: {
         questionType: "open_ended",
         question: "Beschrijf wat twee-factor authenticatie is en waarom het belangrijk is.",
         correct_answer: "Twee-factor authenticatie vereist een tweede verificatie naast een wachtwoord, zoals een sms-code of authenticator-app, waardoor de beveiliging aanzienlijk verbetert.",
-        explanation: "Twee-factor authenticatie voegt een extra beveiligingslaag toe door naast je wachtwoord (iets wat je weet) ook een tweede factor te vereisen (iets wat je hebt, zoals je telefoon). Zelfs als je wachtwoord wordt gestolen, heeft een aanvaller nog steeds de tweede factor nodig om toegang te krijgen, wat de kans op ongeautoriseerde toegang aanzienlijk vermindert."
+        explanation: "Twee-factor authenticatie voegt een extra beveiligingslaag toe door naast je wachtwoord (iets wat je weet) ook een tweede factor te vereisen (iets wat je hebt, zoals je telefoon). Zelfs als je wachtwoord wordt gestolen, heeft een aanvaller nog steeds de tweede factor nodig om toegang te krijgen, wat de kans op ongeautoriseerde toegang aanzienlijk vermindert.",
+        image: null
     },
     21: {
         questionType: "open_ended",
         question: "Wat is het gevaar voor jouw als er een datalek is?",
         correct_answer: "Een datalek kan leiden tot identiteitsdiefstal, financiële schade en reputatieschade, waardoor het belangrijk is om je gegevens te beschermen.",
-        explanation: "Een datalek kan ernstige gevolgen hebben zoals identiteitsdiefstal, financiële fraude, afpersing met gelekte gegevens, en reputatieschade. Persoonlijke gegevens zoals je naam, e-mailadres, wachtwoord en financiële informatie kunnen worden misbruikt voor kwaadaardige doeleinden."
+        explanation: "Een datalek kan ernstige gevolgen hebben zoals identiteitsdiefstal, financiële fraude, afpersing met gelekte gegevens, en reputatieschade. Persoonlijke gegevens zoals je naam, e-mailadres, wachtwoord en financiële informatie kunnen worden misbruikt voor kwaadaardige doeleinden.",
+        image: "./img/data_leak.svg"
     },
     22: {
         questionType: "open_ended",
         question: "Hoe kun je de beveiliging van je thuisnetwerk verbeteren?",
         correct_answer: "Je kunt de beveiliging van je thuisnetwerk verbeteren door het standaard wachtwoord van het netwerk te veranderen en dat van de router zelf. Houd ook de firmware van je router up-to-date. ",
-        explanation: "Je kunt je thuisnetwerk beveiligen door sterke, unieke wachtwoorden te gebruiken voor je Wi-Fi en router, de router-firmware regelmatig bij te werken, WPA3-encryptie te gebruiken, gasten-netwerken in te stellen voor bezoekers, en een firewall te activeren. Het wijzigen van standaard inloggegevens en het uitschakelen van WPS en externe beheer zijn ook belangrijke maatregelen."
+        explanation: "Je kunt je thuisnetwerk beveiligen door sterke, unieke wachtwoorden te gebruiken voor je Wi-Fi en router, de router-firmware regelmatig bij te werken, WPA3-encryptie te gebruiken, gasten-netwerken in te stellen voor bezoekers, en een firewall te activeren. Het wijzigen van standaard inloggegevens en het uitschakelen van WPS en externe beheer zijn ook belangrijke maatregelen.",
+        image: null
     },
     23: {
         questionType: "open_ended",
         question: "Hoe kun je sterke wachtwoorden creëren en beheren?",
         correct_answer: "Gebruik een combinatie van letters, cijfers en symbolen; vermijd gemakkelijk te raden woorden; en overweeg gebruik te maken van een wachtwoordbeheerder voor het genereren en opslaan van wachtwoorden. bijvoorbeeld, Bitwarden of Proton Pass.",
-        explanation: "Sterke wachtwoorden bevatten een mix van hoofdletters, kleine letters, cijfers en speciale tekens, zijn minstens 12 tekens lang, en zijn uniek voor elke dienst. Een wachtwoordbeheerder zoals Bitwarden of Proton Pass kan complexe wachtwoorden genereren en veilig opslaan, zodat je ze niet hoeft te onthouden."
+        explanation: "Sterke wachtwoorden bevatten een mix van hoofdletters, kleine letters, cijfers en speciale tekens, zijn minstens 12 tekens lang, en zijn uniek voor elke dienst. Een wachtwoordbeheerder zoals Bitwarden of Proton Pass kan complexe wachtwoorden genereren en veilig opslaan, zodat je ze niet hoeft te onthouden.",
+        image: null
     },
     24: {
         questionType: "open_ended",
         question: "Hoe kun je controleren of een website veilig is voordat je persoonlijke informatie invoert?",
         correct_answer: "Controleer of je een beveiligde verbinding hebt (https://), zoek naar een slotpictogram in de adresbalk en controleer of de URL correct is gespeld en overeenkomt met de echte website.",
-        explanation: "Controleer of de website HTTPS gebruikt (let op het slotje in de adresbalk), verifieer dat de URL correct is en niet een lookalike domeinnaam, zoek naar contactinformatie en privacybeleid, gebruik website-veiligheid verificatietools zoals Google Safe Browsing, en let op spelfouten of slechte vormgeving die op nepsites kunnen wijzen."
+        explanation: "Controleer of de website HTTPS gebruikt (let op het slotje in de adresbalk), verifieer dat de URL correct is en niet een lookalike domeinnaam, zoek naar contactinformatie en privacybeleid, gebruik website-veiligheid verificatietools zoals Google Safe Browsing, en let op spelfouten of slechte vormgeving die op nepsites kunnen wijzen.",
+        image: null
     },
     25: {
         questionType: "open_ended",
         question: "Wat is het nut van een AD blocker?",
         correct_answer: "Een AD blocker blokkeert advertenties op websites, waardoor je privacy wordt beschermd en de laadtijd van pagina's wordt verkort.",
-        explanation: "Een adblocker biedt meerdere voordelen: het beschermt tegen malvertising (kwaadaardige advertenties), verbetert de laadsnelheid van webpagina's, vermindert dataverbruik, verbetert de gebruikerservaring, en beperkt het volgen van je online gedrag door advertentienetwerken, waardoor je privacy wordt verbeterd."
+        explanation: "Een adblocker biedt meerdere voordelen: het beschermt tegen malvertising (kwaadaardige advertenties), verbetert de laadsnelheid van webpagina's, vermindert dataverbruik, verbetert de gebruikerservaring, en beperkt het volgen van je online gedrag door advertentienetwerken, waardoor je privacy wordt verbeterd.",
+        image: "./img/ad_blocker.jpg"
     }
 };

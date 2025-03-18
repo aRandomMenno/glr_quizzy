@@ -12,7 +12,7 @@
     --base-font-size: 1.2rem;
 }
 
-[data-theme="dark"] {
+[data_theme="dark"] {
     --color_text: #fff;
     --color_background: #222;
     --color_background_transprent: #22222260;
@@ -89,7 +89,7 @@ img {
     height: auto;
 }
 
-.dark-div {
+.dark_div {
     position: absolute;
     right: 20px;
     display: flex;
@@ -97,7 +97,7 @@ img {
     justify-content: center;
 }
 
-.dark-mode-toggle {
+.dark_mode_toggle {
     width: 48px;
     height: 24px;
     background-color: #e0e0e0;
@@ -107,7 +107,7 @@ img {
     transition: background-color 0.3s;
 }
 
-.dark-mode-toggle::before {
+.dark_mode_toggle::before {
     content: "";
     position: absolute;
     width: 20px;
@@ -120,10 +120,10 @@ img {
     transition: transform 0.3s;
 }
 
-.dark-mode-toggle.active {
+.dark_mode_toggle.active {
     background-color: var(--color_link);
 }
 
-.dark-mode-toggle.active::before {
+.dark_mode_toggle.active::before {
     transform: translateX(24px);
 }
