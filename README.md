@@ -18,11 +18,11 @@ Maak de quiz in een map met jouw naam :) dankjewel. Alle bestandsnamen en mappen
 
 ### Quiz pagina's
 
-- [ ] Rianne quiz pagina.
-  - [ ] **Stijl:** Maak de layout voor de pagina uit het prototype
-  - [ ] **Toevoegen:** Logica voor de vragen.
-  - [ ] **Toevoegen:** Mooie kleuren plaatjes etc.
-  - [ ] _Think:_ Bedenk vragen voor de quiz.
+- [X] Rianne quiz pagina.
+  - [X] **Stijl:** Maak de layout voor de pagina uit het prototype
+  - [X] **Toevoegen:** Logica voor de vragen.
+  - [X] **Toevoegen:** Mooie kleuren plaatjes etc.
+  - [X] _Think:_ Bedenk vragen voor de quiz.
 - [X] Menno quiz pagina.
   - [X] **Stijl:** Maak de layout voor de pagina uit het prototype
   - [X] **Toevoegen:** Logica voor vragen
