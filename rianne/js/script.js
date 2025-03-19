@@ -39,21 +39,21 @@ function startQuiz() {
 function nextQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
 
-    if (currentQuestion.type === 'mc') {
-        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-        if (!selectedAnswer) {
-            alert('Selecteer een antwoord voordat je verder gaat!');
-            return;
-        }
-        userAnswers[currentQuestionIndex] = selectedAnswer.value;
-    } else {
-        const answerInput = document.querySelector('#answer-input').value.trim();
-        if (!answerInput) {
-            alert('Vul een antwoord in voordat je verder gaat!');
-            return;
-        }
-        userAnswers[currentQuestionIndex] = answerInput;
-    }
+    // if (currentQuestion.type === 'mc') {
+    //     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    //     if (!selectedAnswer) {
+    //         alert('Selecteer een antwoord voordat je verder gaat!');
+    //         return;
+    //     }
+    //     userAnswers[currentQuestionIndex] = selectedAnswer.value;
+    // } else {
+    //     const answerInput = document.querySelector('#answer-input').value.trim();
+    //     if (!answerInput) {
+    //         alert('Vul een antwoord in voordat je verder gaat!');
+    //         return;
+    //     }
+    //     userAnswers[currentQuestionIndex] = answerInput;
+    // }
 
     if (currentQuestionIndex < 14) {
         currentQuestionIndex++;
@@ -130,19 +130,23 @@ function showResults() {
             ? "Dit is een open vraag zonder vast antwoord." 
             : `✅ Correct antwoord: <strong>${correctAnswer}</strong>`;
 
-        resultItem.innerHTML = `
+            resultItem.innerHTML = `
             <div class="question-box">
                 <h3>Vraag ${index + 1}</h3>
                 <p><strong>${question.question}</strong></p>
                 <p><strong>Jouw antwoord:</strong> ${userAnswer}</p>
                 <p class="feedback" style="color: ${isCorrect || question.type === 'open' ? 'green' : 'red'};">
-                    <strong>${isCorrect ? '✔ Correct!' : '❌ Fout!'}</strong>
+                    <strong>
+                        ${isCorrect || (question.type === 'open' && correctAnswer === "") ? '✔ Goed!' : '❌ Fout!'}
+                    </strong>
                 </p>
-                <p>${!isCorrect ? correctText : ""}</p>
+                ${question.type === 'open' && correctAnswer === "" ? 
+                    '<p style="color: grey;">Geen fout antwoord beschikbaar voor deze open vraag.</p>' : ''}
+                ${!isCorrect && question.type !== 'open' ? `<p>${correctText}</p>` : ''}
                 <p style="color: grey;">${explanation}</p>
             </div>
             <hr class="separator">
-        `;
+        `;        
         resultsList.appendChild(resultItem);
     });
 
