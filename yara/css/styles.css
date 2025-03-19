@@ -1,4 +1,4 @@
-
+/* Algemene reset */
 * {
     padding: 0;
     margin: 0;
@@ -8,6 +8,7 @@
 /* Achtergrond styling */
 body {
     background: linear-gradient(94deg, rgba(58,131,180,1) 0%, rgba(29,253,29,1) 50%, rgba(176,252,69,1) 100%);
+    font-family: sans-serif;  /* Set font to sans-serif */
 }
 
 /* Navigatie */
@@ -23,14 +24,13 @@ body {
     padding: 5px;
     font-size: 20px;
     font-weight: 600;
-    font-family: 'ADLaM Display', sans-serif;
 }
 
 .quiz-nav a:hover, #active {
     color: rgb(58,131,180);
 }
 
-
+/* Container indeling */
 .quiz-container {
     display: grid;
     grid-template-areas:
@@ -85,7 +85,7 @@ body {
 }
 
 
-
+/* Quiz-secties */
 .social-terms, .quiz-questions {
     background-color: #fff;
     border-radius: 10px;
@@ -127,15 +127,15 @@ button:hover {
 }
 
 
-
+/* Quiz-questions answers styling */
 .quiz-questions label {
-    display: block;  
-    margin-bottom: 10px;  
+    display: block;  /* Makes the answers stack vertically */
+    margin-bottom: 10px;  /* Adds some spacing between the answers */
 }
 
 .quiz input[type="radio"] {
     margin-right: 10px;
-    margin-bottom: 5px;  
+    margin-bottom: 5px;  /* Adds space between the radio button and the label */
 }
 
 /* Container for the answer options */
@@ -145,11 +145,12 @@ button:hover {
     gap: 10px;
 }
 
-/* Background image for the quiz section */
+
 .quiz-image {
     background-image: url('images/socialmedia.png');
-    background-size: cover;  
+    background-size: contain;  
     background-position: center; 
-    height: 300px; 
+    height: 200px; 
     width: 100%;  
+    background-repeat: no-repeat;  
 }
