@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Sociale Media Terminologie</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/javascript.js" defer></script>
+</head>
+<body>
+    
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <div class="quiz-nav">
+                <a href="../index.html">Home</a>
+                <a href="#">||</a>
+                <a href="index.html" id="active">Quiz Sociale Media</a>
+                <a href="../menno/index.html">Quiz Online Veiligheid</a>
+                <a href="../rianne/index.html">Quiz cyberpesten</a>
+            </div>
+        </div>
+        <div class="quiz-menu" id="quiz-menu" style="display: none;"></div>
+        
+        <div class="quiz-content">
+            <div class="social-terms">
+                <h1>Welkom bij de quiz Sociale Media Terminologie!</h1>
+                <p>In deze quiz behandelen we populaire termen die vaak op sociale media worden gebruikt.</p>
+                <p>Nu je weet waar de quiz over gaat, kun je starten door hieronder op de knop "Start quiz" te klikken.</p>
+                <button id="start-btn" onclick="startQuiz()">Start quiz</button>
+            </div>
+        </div>
+
+        <div class="quiz-section" style="display: none;">
+            <div class="quiz-image" style="background-image: url('images/socialmedia.png');"></div>
+            <div class="quiz-questions">
+                <h1>Vraag 1</h1>
+                <h2></h2>
+                <div id="answer-container"></div>
+                <button id="volgende-btn" onclick="nextQuestion()">Volgende</button>
+                <button id="vorige-btn" onclick="prevQuestion()" style="display: none;">Vorige</button>
+            </div>
+        </div>
+
+        <div id="result-container" style="display: none;"></div>
+
+    </div>
+    
+</body>
+</html>

@@ -1,14 +1,14 @@
 let questions = [
-    { type: 'mc', question: 'Wat is cyberpesten?', options: ['A. Een vriend een meme sturen', 'B. Iemand online beledigen en bedreigen', 'C. Een privégesprek voeren'], answer: 'B' },
-    { type: 'mc', question: 'Welke gevolgen kan cyberpesten hebben?', options: ['A. Stress en angst', 'B. Hogere cijfers op school', 'C. Meer vrienden maken'], answer: 'A' },
+    { type: 'mc', question: 'Wat is cyberpesten?', options: ['A. Een vriend een meme sturen', 'B. Iemand online beledigen en bedreigen', 'C. Een privégesprek voeren'], answer: 'B', image: 'images/cyber1.png' },
+    { type: 'mc', question: 'Welke gevolgen kan cyberpesten hebben?', options: ['A. Stress en angst', 'B. Hogere cijfers op school', 'C. Meer vrienden maken'], answer: 'A', image: 'images/cyber2.png' },
     { type: 'mc', question: 'Wat is een voorbeeld van cyberpesten?', options: ['A. Een positief bericht sturen', 'B. Iemand uitlachen in een groepschat', 'C. Iemand helpen met huiswerk'], answer: 'B' },
     { type: 'mc', question: 'Wat kun je doen als je wordt gepest online?', options: ['A. Negeren en wegklikken', 'B. Terugpesten', 'C. Het melden bij een volwassene'], answer: 'C' },
     { type: 'mc', question: 'Welke platforms worden het vaakst gebruikt voor cyberpesten?', options: ['A. Online games', 'B. Sociale media', 'C. Beide'], answer: 'C' },
-    { type: 'mc', question: 'Wat is een catfish?', options: ['A. Een nepaccount dat iemand anders nadoet', 'B. Een vissoort', 'C. Een online quiz'], answer: 'A' },
+    { type: 'mc', question: 'Wat is een catfish?', options: ['A. Een nepaccount dat iemand anders nadoet', 'B. Een vissoort', 'C. Een online quiz'], answer: 'A', image: 'images/cyber5.png' },
     { type: 'mc', question: 'Wat is doxxing?', options: ['A. Het openbaar maken van iemands privégegevens', 'B. Een online game spelen', 'C. Een beveiligingsmaatregel'], answer: 'A' },
     { type: 'mc', question: 'Wat kun je doen als je ziet dat iemand cyberpesten meemaakt?', options: ['A. Er niets aan doen', 'B. De persoon steunen en het melden', 'C. Meedoen met het pesten'], answer: 'B' },
     { type: 'mc', question: 'Wat is het effect van cyberpesten op slachtoffers?', options: ['A. Meer zelfvertrouwen', 'B. Angst en depressie', 'C. Meer vrienden maken'], answer: 'B' },
-    { type: 'mc', question: 'Waarom is cyberpesten zo gevaarlijk?', options: ['A. Het blijft vaak anoniem', 'B. Slachtoffers kunnen zich machteloos voelen', 'C. Beide zijn correct'], answer: 'C' },
+    { type: 'mc', question: 'Waarom is cyberpesten zo gevaarlijk?', options: ['A. Het blijft vaak anoniem', 'B. Slachtoffers kunnen zich machteloos voelen', 'C. Beide zijn correct'], answer: 'C', image: 'images/cyber6.png' },
 
     // Open vragen met correct antwoord
     { type: 'open', question: 'Noem twee gevolgen van cyberpesten.', answer: 'Angst, depressie, stress, sociale isolatie' },
@@ -19,7 +19,6 @@ let questions = [
     { type: 'open', question: 'Wat zou jij doen als je wordt gepest online?', answer: '' },
     { type: 'open', question: 'Wat zou jij veranderen aan social media om cyberpesten te verminderen?', answer: '' }
 ];
-
 
 let userAnswers = {};
 let currentQuestionIndex = 0;
@@ -38,22 +37,6 @@ function startQuiz() {
 
 function nextQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
-
-    if (currentQuestion.type === 'mc') {
-        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-        if (!selectedAnswer) {
-            alert('Selecteer een antwoord voordat je verder gaat!');
-            return;
-        }
-        userAnswers[currentQuestionIndex] = selectedAnswer.value;
-    } else {
-        const answerInput = document.querySelector('#answer-input').value.trim();
-        if (!answerInput) {
-            alert('Vul een antwoord in voordat je verder gaat!');
-            return;
-        }
-        userAnswers[currentQuestionIndex] = answerInput;
-    }
 
     if (currentQuestionIndex < 14) {
         currentQuestionIndex++;
@@ -85,6 +68,18 @@ function loadQuestion() {
     const questionData = questions[currentQuestionIndex];
     document.querySelector('.quiz h1').textContent = `Vraag ${currentQuestionIndex + 1}`;
     document.querySelector('.quiz h2').textContent = questionData.question;
+    
+    // Voeg de afbeelding toe als deze aanwezig is
+    const imageContainer = document.getElementById('image-container');
+    imageContainer.innerHTML = ''; // Verwijder vorige afbeelding, als die er was
+    if (questionData.image) {
+        let img = document.createElement('img');
+        img.src = questionData.image;
+        img.alt = 'Afbeelding voor vraag';
+        img.style.width = '100%';  // Je kunt de grootte van de afbeelding aanpassen
+        imageContainer.appendChild(img);
+    }
+
     const answerContainer = document.getElementById('answer-container');
     answerContainer.innerHTML = "";
 
@@ -136,9 +131,13 @@ function showResults() {
                 <p><strong>${question.question}</strong></p>
                 <p><strong>Jouw antwoord:</strong> ${userAnswer}</p>
                 <p class="feedback" style="color: ${isCorrect || question.type === 'open' ? 'green' : 'red'};">
-                    <strong>${isCorrect ? '✔ Correct!' : '❌ Fout!'}</strong>
+                    <strong>
+                        ${isCorrect || (question.type === 'open' && correctAnswer === "") ? '✔ Goed!' : '❌ Fout!'}
+                    </strong>
                 </p>
-                <p>${!isCorrect ? correctText : ""}</p>
+                ${question.type === 'open' && correctAnswer === "" ? 
+                    '<p style="color: grey;">Geen fout antwoord beschikbaar voor deze open vraag.</p>' : ''}
+                ${!isCorrect && question.type !== 'open' ? `<p>${correctText}</p>` : ''}
                 <p style="color: grey;">${explanation}</p>
             </div>
             <hr class="separator">
