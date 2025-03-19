@@ -20,9 +20,9 @@
                 <nav>
                     <ul>
                         <li><a href=".." class="link">Home</a></li>
-                        <li><a href="." class="link">Menno</a></li>
-                        <li><a href="../rianne/" class="link">Rianne</a></li>
-                        <li><a href="../yara/" class="link">Yara</a></li>
+                        <li><a href="." class="link">Quiz: online veiligheid</a></li>
+                        <li><a href="../rianne/" class="link">Quiz: Cyberpesten</a></li>
+                        <li><a href="../yara/" class="link">Quiz: Social media terminologie</a></li>
                         <li class="dark_mode_container"><div class="dark_mode_toggle"></div></li>
                     </ul>
                 </nav>
@@ -76,11 +76,12 @@
                         <a onclick="guess('d');" id="awn_d" class="hidden">d</a>
                         <textarea name="open_question" id="open_question" rows="4" cols="50"
                             placeholder="Typ hier je antwoord..." class="hidden"></textarea>
-                        <button onclick="confirm();">Volgende vraag</button>
+                        
                     </p>
                     <div class="buttons">
-                        <button id="skip">Vraag overslaan</button>
                         <button id="previous">Vorige vraag</button>
+                        <button id="skip">Vraag overslaan</button>
+                        <button id="next" onclick="confirm();">Volgende vraag</button>
                     </div>
                     <div class="question_image_container">
                         <img class="question_image">
