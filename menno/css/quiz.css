@@ -102,7 +102,10 @@ nav ul {
 }
 
 .question_result {
-    border-bottom: 1px solid #ddd;
+    margin: 20px 0;
+    padding: clamp(10px, 2vw, 20px);
+    background-color: var(--color_background);
+    border-radius: 12px;
 }
 
 .question_result:last-child {
@@ -213,7 +216,8 @@ button:active {
 }
 
 #skip,
-#previous {
+#previous,
+#next {
     margin-top: clamp(10px, 2vw, 20px);
     padding: clamp(8px, 1.2vw, 10px) clamp(10px, 1.6vw, 16px);
     background-color: var(--color_background);
@@ -231,12 +235,14 @@ button:active {
 }
 
 #skip:hover,
-#previous:hover {
+#previous:hover,
+#next:hover {
     transform: scale(1.05);
 }
 
 #skip:active,
-#previous:active {
+#previous:active,
+#next:active {
     opacity: 0.8;
 }
 

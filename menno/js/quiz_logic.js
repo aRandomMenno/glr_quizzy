@@ -17,7 +17,7 @@ function start_quiz() {
         alert("There was a problem setting up the quiz. Please try again.");
         return;
     }
-    
+
     quiz_active = true;
     quiz.classList.remove("hidden");
     quiz_vragen_lijst.classList.remove("hidden");
@@ -33,12 +33,12 @@ function initialize_quiz() {
 
     for (let id in questions) {
         if (questions[id].questionType === "multiple_choice") {
-            multiple_choice_questions.push({...questions[id], id});
+            multiple_choice_questions.push({ ...questions[id], id });
         } else if (questions[id].questionType === "open_ended") {
-            open_ended_questions.push({...questions[id], id});
+            open_ended_questions.push({ ...questions[id], id });
         }
     }
-    
+
     if (open_ended_questions.length < 5) {
         console.error("Not enough open-ended questions!");
         return false;
@@ -49,7 +49,7 @@ function initialize_quiz() {
         let random_index = Math.floor(Math.random() * open_ended_questions.length);
         selected_open_ended.push(open_ended_questions.splice(random_index, 1)[0]);
     }
-    
+
     let selected_multiple_choice = [];
     const mc_to_select = Math.min(10, multiple_choice_questions.length);
     while (selected_multiple_choice.length < mc_to_select) {
@@ -76,7 +76,7 @@ function show_question(index) {
         console.error("Question index out of bounds");
         return;
     }
-    
+
     current_index = index;
     const question = selected_questions[index];
     document.getElementById("vraag").textContent = `Vraag ${index + 1} van ${selected_questions.length}: ${question.question}`;
@@ -113,6 +113,12 @@ function show_question(index) {
         const textarea = document.getElementById("open_question");
         textarea.classList.remove("hidden");
         textarea.value = user_answers[index] || "";
+        
+        if (user_answers[index] && typeof user_answers[index] === 'object' && user_answers[index].text) {
+            textarea.value = user_answers[index].text;
+        } else {
+            textarea.value = user_answers[index] || "";
+        }
     }
     document.getElementById("previous").disabled = index === 0;
     document.getElementById("skip").textContent = index === selected_questions.length - 1 ? "Afronden" : "Vraag overslaan";
@@ -133,9 +139,9 @@ function confirm() {
     if (current_question.questionType === "multiple_choice") {
         user_answers[current_index] = selected_answer;
     } else if (current_question.questionType === "open_ended") {
-        const answer_text = document.getElementById("open_question").value.trim();
+        const answer_text = document.getElementById("open_question").value;
         if (answer_text === "") {
-            alert("Vul alsjeblieft een antwoord in.");
+            alert("Gebruik de vraag overslaan knop als je de vraag wil overslaan.");
             return;
         }
         user_answers[current_index] = {
@@ -151,13 +157,13 @@ function confirm() {
     } else {
         const open_ended_indices = [];
         for (let i = 0; i < selected_questions.length; i++) {
-            if (selected_questions[i].questionType === "open_ended" && 
-                user_answers[i] && 
+            if (selected_questions[i].questionType === "open_ended" &&
+                user_answers[i] &&
                 !user_answers[i].self_evaluated) {
                 open_ended_indices.push(i);
             }
         }
-        
+
         if (open_ended_indices.length > 0) {
             show_open_ended_evaluation(open_ended_indices, 0);
         } else {
@@ -171,13 +177,13 @@ function show_open_ended_evaluation(indices, current) {
         end_quiz_and_show_results();
         return;
     }
-    
+
     const questionIndex = indices[current];
     const question = selected_questions[questionIndex];
     const user_answer = user_answers[questionIndex].text;
-    
+    const user_answer_text = user_answer && user_answer.text ? user_answer.text : user_answer;
     const quiz_element = document.getElementById("quiz");
-    
+
     let evaluation_html = `
         <div class="self_evaluation">
             <h2>Beoordeel je antwoord (${current + 1} van ${indices.length})</h2>
@@ -188,7 +194,7 @@ function show_open_ended_evaluation(indices, current) {
                 </div>
                 <div class="user_answer_container">
                     <h3>Jouw antwoord:</h3>
-                    <p class="user_answer">${user_answer}</p>
+                    <p class="user_answer">${user_answer_text}</p>
                 </div>
                 <div class="correct_answer_container">
                     <h3>Voorbeeld antwoord:</h3>
@@ -206,17 +212,17 @@ function show_open_ended_evaluation(indices, current) {
             </div>
         </div>
     `;
-    
+
     quiz_element.innerHTML = evaluation_html;
-    
-    document.getElementById("eval_correct").addEventListener("click", function() {
+
+    document.getElementById("eval_correct").addEventListener("click", function () {
         user_answers[questionIndex].self_evaluated = true;
         user_answers[questionIndex].is_correct = true;
         correct_answers++;
         show_open_ended_evaluation(indices, current + 1);
     });
-    
-    document.getElementById("eval_incorrect").addEventListener("click", function() {
+
+    document.getElementById("eval_incorrect").addEventListener("click", function () {
         user_answers[questionIndex].self_evaluated = true;
         user_answers[questionIndex].is_correct = false;
         incorrect_answers++;
@@ -245,7 +251,7 @@ function end_quiz_and_show_results() {
         const question = selected_questions[i];
         const user_answer = user_answers[i];
         let is_correct = false;
-        
+
         if (user_answer === null || user_answer === "") {
             unanswered++;
             results_by_question.push({
@@ -253,7 +259,7 @@ function end_quiz_and_show_results() {
                 question: question.question,
                 user_answer: "Niet beantwoord",
                 correct_answer: question.correct_answer,
-                correct_answer_text: question.questionType === "multiple_choice" ? 
+                correct_answer_text: question.questionType === "multiple_choice" ?
                     question.answers[question.correct_answer] : question.correct_answer,
                 is_correct: false,
                 question_type: question.questionType,
@@ -278,7 +284,7 @@ function end_quiz_and_show_results() {
                 explanation: question.explanation || "Geen uitleg beschikbaar"
             });
         } else if (question.questionType === "open_ended") {
-            if (user_answer.self_evaluated) {
+            if (user_answer && user_answer.self_evaluated) {
                 if (user_answer.is_correct) {
                     correct_answers++;
                     is_correct = true;
@@ -288,29 +294,29 @@ function end_quiz_and_show_results() {
             } else {
                 unanswered++;
             }
-            
+
             results_by_question.push({
                 question_num: i + 1,
                 question: question.question,
-                user_answer: user_answer.text || "Niet beantwoord",
+                user_answer: user_answer && user_answer.text ? user_answer.text : "Niet beantwoord",
                 correct_answer: question.correct_answer,
                 is_correct: is_correct,
                 question_type: "open_ended",
                 explanation: question.explanation || "Geen uitleg beschikbaar",
-                self_evaluated: user_answer.self_evaluated || false
+                self_evaluated: user_answer && user_answer.self_evaluated ? user_answer.self_evaluated : false
             });
         }
     }
-    
+
     const percentage = (correct_answers / selected_questions.length) * 100;
-    const score_out_of_ten = Math.max(1, Math.min(10, Math.round(percentage / 10)));
-    
+    const score_out_of_ten = Math.max(1, Math.min(10, Math.round((percentage / 10) * 10) / 10));
+
     let status_class = "";
     let result_message = "";
-    
+
     if (score_out_of_ten >= 8) {
         status_class = "passing";
-        result_message = "Uitstekend! Je kent de basis van online veiligheid goed!";
+        result_message = "Uitstekend! Je weet al redelijk wat over online veiligheid!";
     } else if (score_out_of_ten >= 6) {
         status_class = "mediocre";
         result_message = "Voldoende! Je hebt een goede basiskennis van online veiligheid.";
@@ -318,7 +324,7 @@ function end_quiz_and_show_results() {
         status_class = "failing";
         result_message = "Je moet nog wat bijleren over online veiligheid!";
     }
-    
+
     let quiz_element = document.getElementById("quiz");
     quiz_element.classList.add(status_class);
     let results_html = `
@@ -338,7 +344,6 @@ function end_quiz_and_show_results() {
             <p>Onbeantwoorde vragen: ${unanswered}</p>
             <p>Percentage: ${Math.round((correct_answers / selected_questions.length) * 100)}%</p>
             
-            <h3>Gedetailleerde resultaten:</h3>
             <div class="detailed_results">
     `;
 
@@ -348,30 +353,30 @@ function end_quiz_and_show_results() {
             results_html += `<div class="question_result ${status_class}">`;
             results_html += `<h4>Vraag ${result.question_num}: ${result.question}</h4>`;
             if (result.question_type === "multiple_choice") {
-                results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" : 
+                results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" :
                     result.user_answer.toUpperCase() + ": " + result.user_answer_text}</p>`;
-                results_html += `<p>Juiste antwoord: ${result.correct_answer.toUpperCase()}: ${result.correct_answer_text}</p>`;
+                results_html += `<p>Juiste antwoord: ${result.correct_answer.toUpperCase()} -> ${result.correct_answer_text}</p>`;
             } else {
                 results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" : result.user_answer}</p>`;
                 results_html += `<p>Voorbeeld antwoord: ${result.correct_answer}</p>`;
             }
-            
+
             results_html += `<p class="explanation">Uitleg: ${result.explanation}</p>`;
             results_html += `</div>`;
         }
     }
-    
+
     results_html += `
             </div>
             <button onclick="window.location.href = '.'">Quiz Opnieuw Doen</button>
         </div>
     `;
-    
+
     quiz_element.innerHTML = results_html;
     if (status_class === "passing") {
         const confettiContainer = document.createElement('div');
         confettiContainer.className = 'confetti-container';
-        
+
         for (let i = 0; i < 50; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
@@ -383,10 +388,10 @@ function end_quiz_and_show_results() {
             confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
             confettiContainer.appendChild(confetti);
         }
-        
+
         document.querySelector('.results').prepend(confettiContainer);
     }
-    
+
     quiz_vragen_lijst.classList.add("hidden");
     quiz.classList.remove("quiz");
     quiz.classList.add("landing");
@@ -398,9 +403,9 @@ function end_quiz_and_show_results() {
 
 function getRandomColor() {
     const colors = [
-        '#f44336', '#e91e63', '#9c27b0', '#673ab7', 
-        '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', 
-        '#009688', '#4CAF50', '#8BC34A', '#CDDC39', 
+        '#f44336', '#e91e63', '#9c27b0', '#673ab7',
+        '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
+        '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
         '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'
     ];
     return colors[Math.floor(Math.random() * colors.length)];
@@ -422,8 +427,8 @@ function end_quiz() {
     quiz_active = false;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("skip").addEventListener("click", function() {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById("skip").addEventListener("click", function () {
         if (current_index === selected_questions.length - 1) {
             end_quiz_and_show_results();
         } else {
@@ -431,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById("previous").addEventListener("click", function() {
+    document.getElementById("previous").addEventListener("click", function () {
         if (current_index > 0) {
             show_question(current_index - 1);
         }
