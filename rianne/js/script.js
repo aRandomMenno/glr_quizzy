@@ -1,4 +1,5 @@
 let questions = [
+    // Multiple Choice vragen
     { type: 'mc', question: 'Wat is cyberpesten?', options: ['A. Een vriend een meme sturen', 'B. Iemand online beledigen en bedreigen', 'C. Een privégesprek voeren'], answer: 'B' },
     { type: 'mc', question: 'Welke gevolgen kan cyberpesten hebben?', options: ['A. Stress en angst', 'B. Hogere cijfers op school', 'C. Meer vrienden maken'], answer: 'A' },
     { type: 'mc', question: 'Wat is een voorbeeld van cyberpesten?', options: ['A. Een positief bericht sturen', 'B. Iemand uitlachen in een groepschat', 'C. Iemand helpen met huiswerk'], answer: 'B' },
@@ -14,12 +15,11 @@ let questions = [
     { type: 'open', question: 'Noem twee gevolgen van cyberpesten.', answer: 'Angst, depressie, stress, sociale isolatie' },
     { type: 'open', question: 'Welke organisaties kunnen slachtoffers van cyberpesten helpen?', answer: 'Politie, Pestweb, Helpwanted.nl' },
     { type: 'open', question: 'Wat is een effectieve manier om cyberpesten te voorkomen?', answer: 'Sterke wachtwoorden, privacy-instellingen aanpassen, pesten melden' },
-    
+
     // Open vragen zonder vast antwoord (mening)
     { type: 'open', question: 'Wat zou jij doen als je wordt gepest online?', answer: '' },
     { type: 'open', question: 'Wat zou jij veranderen aan social media om cyberpesten te verminderen?', answer: '' }
 ];
-
 
 let userAnswers = {};
 let currentQuestionIndex = 0;
@@ -39,23 +39,24 @@ function startQuiz() {
 function nextQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
 
-    // if (currentQuestion.type === 'mc') {
-    //     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-    //     if (!selectedAnswer) {
-    //         alert('Selecteer een antwoord voordat je verder gaat!');
-    //         return;
-    //     }
-    //     userAnswers[currentQuestionIndex] = selectedAnswer.value;
-    // } else {
-    //     const answerInput = document.querySelector('#answer-input').value.trim();
-    //     if (!answerInput) {
-    //         alert('Vul een antwoord in voordat je verder gaat!');
-    //         return;
-    //     }
-    //     userAnswers[currentQuestionIndex] = answerInput;
-    // }
+    // Opslaan van het antwoord
+    if (currentQuestion.type === 'mc') {
+        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+        if (!selectedAnswer) {
+            alert('Selecteer een antwoord voordat je verder gaat!');
+            return;
+        }
+        userAnswers[currentQuestionIndex] = selectedAnswer.value;
+    } else {
+        const answerInput = document.querySelector('#answer-input').value.trim();
+        if (!answerInput) {
+            alert('Vul een antwoord in voordat je verder gaat!');
+            return;
+        }
+        userAnswers[currentQuestionIndex] = answerInput;
+    }
 
-    if (currentQuestionIndex < 14) {
+    if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
         loadQuestion();
     } else {
@@ -73,7 +74,7 @@ function prevQuestion() {
 function updateMenu() {
     const menu = document.getElementById("menu");
     menu.innerHTML = "";
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= questions.length; i++) {
         let vraagNummer = document.createElement("h1");
         vraagNummer.textContent = i;
         vraagNummer.style.color = (i === currentQuestionIndex + 1) ? 'rgb(131,58,180)' : 'black';
@@ -98,7 +99,7 @@ function loadQuestion() {
         answerContainer.innerHTML = `<input type="text" id="answer-input" placeholder="Typ hier je antwoord...">`;
     }
 
-    document.getElementById('volgende-btn').textContent = currentQuestionIndex === 14 ? 'Nakijken' : 'Volgende';
+    document.getElementById('volgende-btn').textContent = currentQuestionIndex === questions.length - 1 ? 'Nakijken' : 'Volgende';
     updateMenu();
 }
 
@@ -115,7 +116,9 @@ function showResults() {
     questions.forEach((question, index) => {
         let userAnswer = userAnswers[index] || "Geen antwoord";
         let correctAnswer = question.answer;
-        let isCorrect = userAnswer === correctAnswer;
+        let isCorrect = (question.type === 'mc') 
+                        ? userAnswer === correctAnswer 
+                        : userAnswer.toLowerCase().includes(correctAnswer.toLowerCase());
         let resultItem = document.createElement('div');
         resultItem.classList.add('result-item');
 
@@ -131,22 +134,22 @@ function showResults() {
             : `✅ Correct antwoord: <strong>${correctAnswer}</strong>`;
 
         resultItem.innerHTML = `
-    <div class="question-box">
-        <h3>Vraag ${index + 1}</h3>
-        <p><strong>${question.question}</strong></p>
-        <p><strong>Jouw antwoord:</strong> ${userAnswer}</p>
-        <p class="feedback" style="color: ${isCorrect || question.type === 'open' ? 'green' : 'red'};">
-            <strong>
-                ${isCorrect || (question.type === 'open' && correctAnswer === "") ? '✔ Goed!' : '❌ Fout!'}
-            </strong>
-        </p>
-        ${question.type === 'open' && correctAnswer === "" ? 
-            '<p style="color: grey;">Geen fout antwoord beschikbaar voor deze open vraag.</p>' : ''}
-        ${!isCorrect && question.type !== 'open' ? `<p>${correctText}</p>` : ''}
-        <p style="color: grey;">${explanation}</p>
-    </div>
-    <hr class="separator">
-`;
+            <div class="question-box">
+                <h3>Vraag ${index + 1}</h3>
+                <p><strong>${question.question}</strong></p>
+                <p><strong>Jouw antwoord:</strong> ${userAnswer}</p>
+                <p class="feedback" style="color: ${isCorrect || question.type === 'open' ? 'green' : 'red'};">
+                    <strong>
+                        ${isCorrect || (question.type === 'open' && correctAnswer === "") ? '✔ Goed!' : '❌ Fout!'}
+                    </strong>
+                </p>
+                ${question.type === 'open' && correctAnswer === "" ? 
+                    '<p style="color: grey;">Geen fout antwoord beschikbaar voor deze open vraag.</p>' : ''}
+                ${!isCorrect && question.type !== 'open' ? `<p>${correctText}</p>` : ''}
+                <p style="color: grey;">${explanation}</p>
+            </div>
+            <hr class="separator">
+        `;
 
         resultsList.appendChild(resultItem);
     });
