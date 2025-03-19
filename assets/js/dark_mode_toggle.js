@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    const darkModeToggle = document.querySelector('.dark-mode-toggle');
+    const darkModeToggle = document.querySelector('.dark_mode_toggle');
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     
     if (isDarkMode !== null) {
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     darkModeToggle.addEventListener('click', function() {
-        const currentIsDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+        const currentIsDarkMode = document.documentElement.getAttribute('data_theme') === 'dark';
         setDarkMode(!currentIsDarkMode);
         
 
@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function setDarkMode(isDark) {
         if (isDark) {
-            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('data_theme', 'dark');
             darkModeToggle.classList.add('active');
         } else {
-            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('data_theme', 'light');
             darkModeToggle.classList.remove('active');
         }
     }

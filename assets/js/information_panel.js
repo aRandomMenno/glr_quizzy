@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const infoPanel = document.querySelector('.information');
     const closeButton = document.createElement('div');
-    closeButton.className = 'close-info';
+    closeButton.className = 'close_info';
     closeButton.innerHTML = '✕';
     infoPanel.appendChild(closeButton);
     
