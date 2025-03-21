@@ -328,7 +328,7 @@ function end_quiz_and_show_results() {
     let quiz_element = document.getElementById("quiz");
     quiz_element.classList.add(status_class);
     let results_html = `
-        <div class="results c">
+        <div class="results">
             <h2>Quiz Resultaten</h2>
             
             <div class="score-circle ${status_class}">
@@ -343,8 +343,8 @@ function end_quiz_and_show_results() {
             <p>Onjuiste antwoorden: ${incorrect_answers}</p>
             <p>Onbeantwoorde vragen: ${unanswered}</p>
             <p>Percentage: ${Math.round((correct_answers / selected_questions.length) * 100)}%</p>
-            
-            <div class="detailed_results">
+        </div>
+        <div class="detailed_results">
     `;
 
     for (let result of results_by_question) {

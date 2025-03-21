@@ -72,7 +72,12 @@ nav ul li a {
     display: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-heading);
 
     line-height: 1.2;
@@ -80,9 +85,17 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5em;
 }
 
-h1 { font-size: clamp(1.8rem, 3vw + 1rem, 2.5rem); }
-h2 { font-size: clamp(1.5rem, 2vw + 1rem, 2rem); }
-h3 { font-size: clamp(1.2rem, 1.5vw + 1rem, 1.8rem); }
+h1 {
+    font-size: clamp(1.8rem, 3vw + 1rem, 2.5rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+}
+
+h3 {
+    font-size: clamp(1.2rem, 1.5vw + 1rem, 1.8rem);
+}
 
 img {
     max-width: 100%;
@@ -136,4 +149,31 @@ img {
 @font-face {
     font-family: "ADLaM Display";
     src: url(../fonts/adlam_dispay.ttf);
+}
+
+nav ul li a,
+.quiz_info a {
+    text-decoration: none;
+    color: var(--color_link);
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.2rem);
+    position: relative;
+}
+
+nav ul li a::after,
+.quiz_info a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: red;
+    transition: width 500ms ease;
+    transform-origin: left;
+}
+
+nav ul li a:hover::after,
+.quiz_info a:hover::after {
+    width: 100%;
 }
