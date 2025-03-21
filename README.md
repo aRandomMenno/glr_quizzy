@@ -9,12 +9,12 @@ Maak de quiz in een map met jouw naam :) dankjewel. Alle bestandsnamen en mappen
 
 ### Algemeen
 
-- [ ] favicon/ logo.
+- [X] favicon/ logo.
 - [X] Homepagina maken.
   - [X] **Toevoegen:** Plaatje bij elke quiz en klein stukje tekst.
   - [X] **Toevoegen:** Informatie over ons en de website als je naar beneden scrolt.
   - [X] _Fix:_ responsive.
-- [ ] Maak alle the pagina's responsive.
+- [X] Maak alle the pagina's responsive.
 
 ### Quiz pagina's
 
@@ -28,8 +28,8 @@ Maak de quiz in een map met jouw naam :) dankjewel. Alle bestandsnamen en mappen
   - [X] **Toevoegen:** Logica voor vragen
   - [X] **Toevoegen:** Mooie plaatjes, kleuren etc.
   - [X] _Think:_ Bedenk vragen voor de quiz.
-- [ ] Yara quiz pagina.
-  - [ ] **Stijl:** Maak de layout voor de pagina uit het prototype
-  - [ ] **Toevoegen:** Logica voor vragen
-  - [ ] **Toevoegen:** Mooie plaatjes, kleuren etc.
-  - [ ] _Think:_ Bedenk vragen voor de quiz.
+- [X] Yara quiz pagina.
+  - [X] **Stijl:** Maak de layout voor de pagina uit het prototype
+  - [X] **Toevoegen:** Logica voor vragen
+  - [X] **Toevoegen:** Mooie plaatjes, kleuren etc.
+  - [X] _Think:_ Bedenk vragen voor de quiz.
