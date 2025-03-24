@@ -62,9 +62,11 @@
                     testen. Misschien leer je nog wat
                     nieuwe dingen!
                 </p>
-                <div class="quiz_button_container">
-                    <button onclick="start_quiz()" class="quiz_start_button">Start de Quiz</button>
+                <div class="name_input_container">
+                    <label for="user_name">Wat is je naam?</label>
+                    <input type="text" id="user_name" placeholder="Voer je naam in" required>
                 </div>
+                <button onclick="start_quiz()" class="quiz_start_button">Start de Quiz</button>
             </div>
 
             <div class="quiz hidden" id="quiz">
@@ -77,7 +79,7 @@
                         <a onclick="guess('d');" id="awn_d" class="hidden">d</a>
                         <textarea name="open_question" id="open_question" rows="4" cols="50"
                             placeholder="Typ hier je antwoord..." class="hidden"></textarea>
-                        
+
                     </p>
                     <div class="buttons">
                         <button id="previous">Vorige vraag</button>

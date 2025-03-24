@@ -11,8 +11,17 @@ let selected_questions = [];
 let user_answers = [];
 let current_index = 0;
 let selected_answer = null;
+let user_name = "";
 
 function start_quiz() {
+    const nameInput = document.getElementById("user_name");
+    user_name = nameInput.value.trim();
+    
+    if (!user_name) {
+        alert("Vul alsjeblieft je naam in voordat je begint.");
+        return;
+    }
+    
     if (!initialize_quiz()) {
         alert("There was a problem setting up the quiz. Please try again.");
         return;
@@ -316,89 +325,103 @@ function end_quiz_and_show_results() {
 
     if (score_out_of_ten >= 8) {
         status_class = "passing";
-        result_message = "Uitstekend! Je weet al redelijk wat over online veiligheid!";
+        result_message = `Uitstekend, ${user_name}! Je weet al redelijk wat over online veiligheid!`;
     } else if (score_out_of_ten >= 6) {
         status_class = "mediocre";
-        result_message = "Voldoende! Je hebt een goede basiskennis van online veiligheid.";
+        result_message = `Voldoende, ${user_name}! Je hebt een goede basiskennis van online veiligheid.`;
     } else {
         status_class = "failing";
-        result_message = "Je moet nog wat bijleren over online veiligheid!";
+        result_message = `${user_name}, je moet nog wat bijleren over online veiligheid!`;
     }
 
     let quiz_element = document.getElementById("quiz");
     quiz_element.classList.add(status_class);
-    let results_html = `
-        <div class="results">
-            <h2>Quiz Resultaten</h2>
-            
-            <div class="score-circle ${status_class}">
-                ${score_out_of_ten}
-            </div>
-            
-            <div class="result-message ${status_class}">
-                ${result_message}
-            </div>
-            
-            <p>Correcte antwoorden: ${correct_answers}</p>
-            <p>Onjuiste antwoorden: ${incorrect_answers}</p>
-            <p>Onbeantwoorde vragen: ${unanswered}</p>
-            <p>Percentage: ${Math.round((correct_answers / selected_questions.length) * 100)}%</p>
+    
+    // Show calculation animation first
+    quiz_element.innerHTML = `
+        <div class="calculation-animation">
+            <div class="circle circle-1"><span>Kennis</span></div>
+            <div class="circle circle-2"><span>Inzicht</span></div>
+            <div class="circle circle-3"><span>Veiligheid</span></div>
+            <div class="calculation-text">Resultaat berekenen...</div>
         </div>
-        <div class="detailed_results">
     `;
+    
+    // After animation completes, show the actual results
+    setTimeout(() => {
+        let results_html = `
+            <div class="results">
+                <h2>Quiz Resultaten voor ${user_name}</h2>
+                
+                <div class="score-circle ${status_class}">
+                    ${score_out_of_ten}
+                </div>
+                
+                <div class="result-message ${status_class}">
+                    ${result_message}
+                </div>
+                
+                <p>Correcte antwoorden: ${correct_answers}</p>
+                <p>Onjuiste antwoorden: ${incorrect_answers}</p>
+                <p>Onbeantwoorde vragen: ${unanswered}</p>
+                <p>Percentage: ${Math.round((correct_answers / selected_questions.length) * 100)}%</p>
+            </div>
+            <div class="detailed_results">
+        `;
 
-    for (let result of results_by_question) {
-        const status_class = result.is_correct ? "correct" : (result.user_answer === "Niet beantwoord" || (result.question_type === "open_ended" && !result.self_evaluated) ? "unanswered" : "incorrect");
-        if (!result.is_correct) {
-            results_html += `<div class="question_result ${status_class}">`;
-            results_html += `<h4>Vraag ${result.question_num}: ${result.question}</h4>`;
-            if (result.question_type === "multiple_choice") {
-                results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" :
-                    result.user_answer.toUpperCase() + ": " + result.user_answer_text}</p>`;
-                results_html += `<p>Juiste antwoord: ${result.correct_answer.toUpperCase()} -> ${result.correct_answer_text}</p>`;
-            } else {
-                results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" : result.user_answer}</p>`;
-                results_html += `<p>Voorbeeld antwoord: ${result.correct_answer}</p>`;
+        for (let result of results_by_question) {
+            const status_class = result.is_correct ? "correct" : (result.user_answer === "Niet beantwoord" || (result.question_type === "open_ended" && !result.self_evaluated) ? "unanswered" : "incorrect");
+            if (!result.is_correct) {
+                results_html += `<div class="question_result ${status_class}">`;
+                results_html += `<h4>Vraag ${result.question_num}: ${result.question}</h4>`;
+                if (result.question_type === "multiple_choice") {
+                    results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" :
+                        result.user_answer.toUpperCase() + ": " + result.user_answer_text}</p>`;
+                    results_html += `<p>Juiste antwoord: ${result.correct_answer.toUpperCase()} -> ${result.correct_answer_text}</p>`;
+                } else {
+                    results_html += `<p>Jouw antwoord: ${result.user_answer === "Niet beantwoord" ? "Niet beantwoord" : result.user_answer}</p>`;
+                    results_html += `<p>Voorbeeld antwoord: ${result.correct_answer}</p>`;
+                }
+
+                results_html += `<p class="explanation">Uitleg: ${result.explanation}</p>`;
+                results_html += `</div>`;
+            }
+        }
+
+        results_html += `
+                </div>
+                <button onclick="window.location.href = '.'">Quiz Opnieuw Doen</button>
+            </div>
+        `;
+
+        quiz_element.innerHTML = results_html;
+        if (status_class === "passing") {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.className = 'confetti-container';
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDelay = `${Math.random() * 5}s`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                confettiContainer.appendChild(confetti);
             }
 
-            results_html += `<p class="explanation">Uitleg: ${result.explanation}</p>`;
-            results_html += `</div>`;
-        }
-    }
-
-    results_html += `
-            </div>
-            <button onclick="window.location.href = '.'">Quiz Opnieuw Doen</button>
-        </div>
-    `;
-
-    quiz_element.innerHTML = results_html;
-    if (status_class === "passing") {
-        const confettiContainer = document.createElement('div');
-        confettiContainer.className = 'confetti-container';
-
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = `${Math.random() * 100}%`;
-            confetti.style.width = `${Math.random() * 10 + 5}px`;
-            confetti.style.height = `${Math.random() * 10 + 5}px`;
-            confetti.style.backgroundColor = getRandomColor();
-            confetti.style.animationDelay = `${Math.random() * 5}s`;
-            confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
-            confettiContainer.appendChild(confetti);
+            document.querySelector('.results').prepend(confettiContainer);
         }
 
-        document.querySelector('.results').prepend(confettiContainer);
-    }
-
-    quiz_vragen_lijst.classList.add("hidden");
-    quiz.classList.remove("quiz");
-    quiz.classList.add("landing");
-    header.classList.add("header_landing");
-    header.classList.remove("header_quiz");
-    quiz_active = false;
-    end_quiz();
+        quiz_vragen_lijst.classList.add("hidden");
+        quiz.classList.remove("quiz");
+        quiz.classList.add("landing");
+        header.classList.add("header_landing");
+        header.classList.remove("header_quiz");
+        quiz_active = false;
+        end_quiz();
+    }, 3000); // Show the animation for 3 seconds before displaying results
 }
 
 function getRandomColor() {
