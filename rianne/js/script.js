@@ -1,3 +1,14 @@
+function startQuiz() {
+    username = document.getElementById("username").value;
+    if (username.trim() === "") {
+        alert("Voer een geldige naam in.");
+        return;
+    }
+    localStorage.setItem("username", username);
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("quiz-container").style.display = "block";
+}
+
 let questions = [
     // Multiple Choice vragen
     { type: 'mc', question: 'Wat is cyberpesten?', options: ['A. Een vriend een meme sturen', 'B. Iemand online beledigen en bedreigen', 'C. Een privégesprek voeren'], answer: 'B' },
@@ -109,9 +120,11 @@ function showResults() {
         <h2>📊 Jouw Resultaten</h2>
         <p>Bekijk hieronder je antwoorden. Bij fouten wordt uitleg gegeven.</p>
         <div class="results-list"></div>
+        <div class="score"></div>
     `;
 
     const resultsList = resultContainer.querySelector('.results-list');
+    let correctAnswersCount = 0; // Variabele voor het bijhouden van het aantal juiste antwoorden
 
     questions.forEach((question, index) => {
         let userAnswer = userAnswers[index] || "Geen antwoord";
@@ -119,6 +132,12 @@ function showResults() {
         let isCorrect = (question.type === 'mc') 
                         ? userAnswer === correctAnswer 
                         : userAnswer.toLowerCase().includes(correctAnswer.toLowerCase());
+        
+        // Verhoog het aantal correcte antwoorden als het antwoord goed is
+        if (isCorrect || (question.type === 'open' && correctAnswer === "")) {
+            correctAnswersCount++;
+        }
+
         let resultItem = document.createElement('div');
         resultItem.classList.add('result-item');
 
@@ -154,6 +173,16 @@ function showResults() {
         resultsList.appendChild(resultItem);
     });
 
+    // Toon de score aan het einde
+    const scoreContainer = resultContainer.querySelector('.score');
+    const totalQuestions = questions.length;
+    let displayName = document.getElementById("username").value;
+    scoreContainer.innerHTML = `
+        <h3>${displayName} heeft: ${correctAnswersCount} van de ${totalQuestions} vragen correct!</h3>
+        <p>Dat is ${Math.round((correctAnswersCount / totalQuestions) * 100)}%!</p>
+    `;
+
+    
     document.querySelector('.content2').style.display = 'none';
     resultContainer.style.display = 'block';
 }
@@ -175,4 +204,6 @@ function getExplanation(question) {
     return explanations[question] || "";
 }
 
+
 document.addEventListener('DOMContentLoaded', loadQuestion);
+

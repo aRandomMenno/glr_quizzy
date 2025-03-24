@@ -10,6 +10,12 @@
 
     <body>
         <div class="container">
+
+            <div id="loading-container" style="display: none; text-align: center;">
+                <div class="spinner"></div>
+                <p>Even geduld...</p>
+            </div>
+            
             <div class="header">
                 <div class="nav">
                     <a href="../">Home</a>
@@ -55,7 +61,11 @@
                         de onderstaande knop om de quiz te starten en ontdek hoeveel je weet over het veilig blijven
                         online!
                     </p>
-                    <button id="start-btn" onclick="startQuiz()">Start quiz</button>
+                    <div id="login-container">
+                        <h2>Voer je naam in om te beginnen</h2>
+                        <input type="text" id="username" placeholder="Voer je naam in" required>
+                        <button onclick="startQuiz()">Start Quiz</button>
+                    </div>
                 </div>
             </div>
 
